@@ -80,7 +80,7 @@ function Constellation({ reduced }: { reduced: boolean }) {
       </lineSegments>
 
       {nodes.map((p, i) => (
-        <group key={SKILLS[i]} position={p}>
+        <group key={SKILLS[i] ?? i} position={p}>
           <mesh
             onPointerOver={() => setHovered(i)}
             onPointerOut={() => setHovered((h) => (h === i ? null : h))}
