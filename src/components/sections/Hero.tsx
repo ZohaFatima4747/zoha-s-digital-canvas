@@ -34,7 +34,16 @@ export function Hero() {
         </ClientOnly>
       </motion.div>
 
-      <div className="pointer-events-none absolute inset-0 hidden md:block">
+      <div
+        className="pointer-events-none absolute inset-0 z-[5]"
+        style={{
+          background:
+            "linear-gradient(to top, color-mix(in oklab, var(--ivory) 88%, transparent) 0%, color-mix(in oklab, var(--ivory) 30%, transparent) 55%, transparent 100%)",
+        }}
+      />
+
+      <div className="pointer-events-none absolute inset-0 z-10 hidden md:block">
+
         {orbits.map((o) => (
           <motion.span
             key={o.label}
