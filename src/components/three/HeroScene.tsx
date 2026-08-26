@@ -135,7 +135,10 @@ function Rig({ reduced, children }: { reduced: boolean; children: React.ReactNod
   const group = useRef<THREE.Group>(null);
   const pointer = useLerpedPointer();
 
-  useFrame(() => {
+  useFrame(({ camera, viewport }) => {
+    // Keep the composition framed on narrow / tall viewports.
+    const target = viewport.aspect < 1 ? 6 + (1 - viewport.aspect) * 4.5 : 6;
+    camera.position.z += (target - camera.position.z) * 0.1;
     if (!group.current) return;
     if (reduced) return;
     group.current.rotation.y = pointer.current.x * 0.32;
@@ -150,6 +153,7 @@ function Rig({ reduced, children }: { reduced: boolean; children: React.ReactNod
     </group>
   );
 }
+
 
 export default function HeroScene() {
   const reduced = useReducedMotion();

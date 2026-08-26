@@ -56,8 +56,10 @@ function Constellation({ reduced }: { reduced: boolean }) {
         .sort((m, n) => m.d - n.d)
         .slice(0, 2);
       neighbours.forEach(({ j }) => {
-        positions.push(a.x, a.y, a.z, nodes[j].x, nodes[j].y, nodes[j].z);
+        const b = nodes[j]!;
+        positions.push(a.x, a.y, a.z, b.x, b.y, b.z);
       });
+
     });
     return new Float32Array(positions);
   }, [nodes]);
@@ -78,7 +80,7 @@ function Constellation({ reduced }: { reduced: boolean }) {
       </lineSegments>
 
       {nodes.map((p, i) => (
-        <group key={SKILLS[i]} position={p}>
+        <group key={SKILLS[i] ?? i} position={p}>
           <mesh
             onPointerOver={() => setHovered(i)}
             onPointerOut={() => setHovered((h) => (h === i ? null : h))}

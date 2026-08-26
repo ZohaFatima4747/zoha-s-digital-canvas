@@ -22,7 +22,7 @@ export function Magnetic({
     <motion.div
       ref={ref}
       className={className}
-      style={reduced ? undefined : { x: sx, y: sy }}
+      style={reduced ? {} : { x: sx, y: sy }}
       onPointerMove={(e) => {
         if (reduced || !ref.current) return;
         const r = ref.current.getBoundingClientRect();
