@@ -23,7 +23,9 @@ export function Cursor() {
       setVisible(true);
       const hit = (e.target as HTMLElement | null)?.closest<HTMLElement>("[data-cursor]");
       setActive(!!hit);
-      setLabel(hit?.dataset.cursor && hit.dataset.cursor !== "true" ? hit.dataset.cursor : null);
+      const c = hit?.dataset["cursor"];
+      setLabel(c && c !== "true" ? c : null);
+
     };
 
     const loop = () => {
