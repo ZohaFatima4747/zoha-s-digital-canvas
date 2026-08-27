@@ -5,7 +5,7 @@ import { easeEditorial } from "@/lib/motion";
 export function Reveal({
   children,
   delay = 0,
-  y = 40,
+  y = 24,
   className,
   once = true,
 }: {
@@ -20,8 +20,8 @@ export function Reveal({
       className={className}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, margin: "-12% 0px -12% 0px" }}
-      transition={{ duration: 1, delay, ease: easeEditorial }}
+      viewport={{ once, margin: "0px 0px -12% 0px" }}
+      transition={{ duration: 0.7, delay, ease: easeEditorial }}
     >
       {children}
     </motion.div>
