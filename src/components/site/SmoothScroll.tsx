@@ -8,10 +8,10 @@ export function SmoothScroll() {
   useEffect(() => {
     if (reduced) return;
     const lenis = new Lenis({
-      duration: 1.15,
-      lerp: 0.09,
+      lerp: 0.12,
       wheelMultiplier: 1,
       smoothWheel: true,
+      syncTouch: false,
     });
 
     let frame = 0;
