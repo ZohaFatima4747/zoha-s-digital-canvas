@@ -20,7 +20,7 @@ export function Reveal({
       className={className}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, margin: "0px 0px -12% 0px" }}
+      viewport={{ once, amount: 0.15 }}
       transition={{ duration: 0.7, delay, ease: easeEditorial }}
     >
       {children}
@@ -51,7 +51,7 @@ export function RevealWords({
             className={`inline-block ${wordClassName ?? ""}`}
             initial={{ y: "110%" }}
             whileInView={{ y: "0%" }}
-            viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.85, delay: delay + i * stagger, ease: easeEditorial }}
           >
             {word}
