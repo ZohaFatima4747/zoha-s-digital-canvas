@@ -59,14 +59,7 @@ function ProjectPanel({ project }: { project: Project }) {
     offset: ["start end", "end start"],
   });
 
-  const imageY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.14, 1, 1.08]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [1.6, -1.6]);
-  const clip = useTransform(
-    scrollYProgress,
-    [0, 0.42],
-    ["inset(18% 12% 18% 12%)", "inset(0% 0% 0% 0%)"],
-  );
+  const imageY = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
 
   return (
     <div ref={wrap} className="relative border-t border-border py-20 md:py-32">
