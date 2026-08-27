@@ -20,7 +20,10 @@ export function Hero() {
 
   return (
     <section id="top" className="relative h-[100svh] w-full overflow-hidden">
-      <motion.div style={{ scale: sceneScale }} className="absolute inset-0">
+      <motion.div
+        style={{ scale: sceneScale, willChange: "transform" }}
+        className="absolute inset-0 md:translate-x-[18%] md:scale-90"
+      >
         <ClientOnly
           fallback={
             <div className="absolute inset-0 flex items-center justify-center">
