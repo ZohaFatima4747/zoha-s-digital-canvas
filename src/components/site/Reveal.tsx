@@ -34,7 +34,7 @@ export function RevealWords({
   className,
   wordClassName,
   delay = 0,
-  stagger = 0.055,
+  stagger = 0.04,
 }: {
   text: string;
   className?: string;
