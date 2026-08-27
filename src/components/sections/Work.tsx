@@ -138,7 +138,8 @@ function ProjectPanel({ project }: { project: Project }) {
             <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
               <div className="absolute inset-4 border border-champagne/60" />
             </div>
-          </motion.div>
+          </div>
+          </Reveal>
         </div>
       </div>
     </div>
