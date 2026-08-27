@@ -44,6 +44,13 @@ export function Hero() {
             "linear-gradient(to top, color-mix(in oklab, var(--ivory) 88%, transparent) 0%, color-mix(in oklab, var(--ivory) 30%, transparent) 55%, transparent 100%)",
         }}
       />
+      <div
+        className="pointer-events-none absolute inset-0 z-[5] hidden md:block"
+        style={{
+          background:
+            "linear-gradient(to right, color-mix(in oklab, var(--ivory) 92%, transparent) 0%, color-mix(in oklab, var(--ivory) 55%, transparent) 42%, transparent 68%)",
+        }}
+      />
 
       <div className="pointer-events-none absolute inset-0 z-10 hidden md:block">
 
