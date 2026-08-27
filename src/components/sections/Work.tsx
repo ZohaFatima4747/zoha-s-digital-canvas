@@ -59,14 +59,7 @@ function ProjectPanel({ project }: { project: Project }) {
     offset: ["start end", "end start"],
   });
 
-  const imageY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.14, 1, 1.08]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [1.6, -1.6]);
-  const clip = useTransform(
-    scrollYProgress,
-    [0, 0.42],
-    ["inset(18% 12% 18% 12%)", "inset(0% 0% 0% 0%)"],
-  );
+  const imageY = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
 
   return (
     <div ref={wrap} className="relative border-t border-border py-20 md:py-32">
@@ -128,9 +121,9 @@ function ProjectPanel({ project }: { project: Project }) {
         </div>
 
         <div className="lg:col-span-7">
-          <motion.div
-            style={{ clipPath: clip, rotate }}
-            className="group relative overflow-hidden bg-muted shadow-[0_50px_100px_-60px_oklch(0.19_0.008_60/0.45)]"
+          <Reveal y={28}>
+          <div
+            className="group relative aspect-[16/10] w-full overflow-hidden bg-muted shadow-[0_50px_100px_-60px_oklch(0.19_0.008_60/0.45)]"
             data-cursor={project.href ? "view" : "case study"}
           >
             <motion.img
@@ -139,13 +132,14 @@ function ProjectPanel({ project }: { project: Project }) {
               width={1600}
               height={1000}
               loading="lazy"
-              style={{ y: imageY, scale }}
-              className="h-full w-full object-cover transition-[filter] duration-700 group-hover:saturate-125"
+              style={{ y: imageY, willChange: "transform" }}
+              className="absolute inset-0 h-[112%] w-full -top-[6%] object-cover transition-[filter] duration-700 group-hover:saturate-125"
             />
             <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
               <div className="absolute inset-4 border border-champagne/60" />
             </div>
-          </motion.div>
+          </div>
+          </Reveal>
         </div>
       </div>
     </div>

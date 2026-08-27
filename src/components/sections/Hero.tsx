@@ -20,7 +20,10 @@ export function Hero() {
 
   return (
     <section id="top" className="relative h-[100svh] w-full overflow-hidden">
-      <motion.div style={{ scale: sceneScale }} className="absolute inset-0">
+      <motion.div
+        style={{ scale: sceneScale, willChange: "transform" }}
+        className="absolute inset-0 md:translate-x-[26%] md:scale-[0.82]"
+      >
         <ClientOnly
           fallback={
             <div className="absolute inset-0 flex items-center justify-center">
@@ -39,6 +42,13 @@ export function Hero() {
         style={{
           background:
             "linear-gradient(to top, color-mix(in oklab, var(--ivory) 88%, transparent) 0%, color-mix(in oklab, var(--ivory) 30%, transparent) 55%, transparent 100%)",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute inset-0 z-[5] hidden md:block"
+        style={{
+          background:
+            "linear-gradient(to right, color-mix(in oklab, var(--ivory) 92%, transparent) 0%, color-mix(in oklab, var(--ivory) 55%, transparent) 42%, transparent 68%)",
         }}
       />
 

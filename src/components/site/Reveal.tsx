@@ -5,7 +5,7 @@ import { easeEditorial } from "@/lib/motion";
 export function Reveal({
   children,
   delay = 0,
-  y = 40,
+  y = 24,
   className,
   once = true,
 }: {
@@ -20,8 +20,8 @@ export function Reveal({
       className={className}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, margin: "-12% 0px -12% 0px" }}
-      transition={{ duration: 1, delay, ease: easeEditorial }}
+      viewport={{ once, amount: 0.15 }}
+      transition={{ duration: 0.7, delay, ease: easeEditorial }}
     >
       {children}
     </motion.div>
@@ -34,7 +34,7 @@ export function RevealWords({
   className,
   wordClassName,
   delay = 0,
-  stagger = 0.055,
+  stagger = 0.04,
 }: {
   text: string;
   className?: string;
@@ -43,23 +43,29 @@ export function RevealWords({
   stagger?: number;
 }) {
   const words = text.split(" ");
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
   return (
-    <span className={className}>
+    <motion.span
+      ref={ref}
+      className={className}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+    >
       {words.map((word, i) => (
         <span key={`${word}-${i}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
           <motion.span
             className={`inline-block ${wordClassName ?? ""}`}
-            initial={{ y: "110%" }}
-            whileInView={{ y: "0%" }}
-            viewport={{ once: true, margin: "-10% 0px" }}
-            transition={{ duration: 1.1, delay: delay + i * stagger, ease: easeEditorial }}
+            variants={{ hidden: { y: "110%" }, visible: { y: "0%" } }}
+            transition={{ duration: 0.85, delay: delay + i * stagger, ease: easeEditorial }}
+            style={{ willChange: "transform" }}
           >
             {word}
           </motion.span>
           {i < words.length - 1 ? <span>&nbsp;</span> : null}
         </span>
       ))}
-    </span>
+    </motion.span>
   );
 }
 
