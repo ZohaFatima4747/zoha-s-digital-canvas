@@ -44,22 +44,26 @@ export function RevealWords({
 }) {
   const words = text.split(" ");
   return (
-    <span className={className}>
+    <motion.span
+      className={className}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+    >
       {words.map((word, i) => (
         <span key={`${word}-${i}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
           <motion.span
             className={`inline-block ${wordClassName ?? ""}`}
-            initial={{ y: "110%" }}
-            whileInView={{ y: "0%" }}
-            viewport={{ once: true, amount: 0.1 }}
+            variants={{ hidden: { y: "110%" }, visible: { y: "0%" } }}
             transition={{ duration: 0.85, delay: delay + i * stagger, ease: easeEditorial }}
+            style={{ willChange: "transform" }}
           >
             {word}
           </motion.span>
           {i < words.length - 1 ? <span>&nbsp;</span> : null}
         </span>
       ))}
-    </span>
+    </motion.span>
   );
 }
 
