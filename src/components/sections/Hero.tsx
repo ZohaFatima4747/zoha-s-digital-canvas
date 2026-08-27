@@ -22,7 +22,7 @@ export function Hero() {
     <section id="top" className="relative h-[100svh] w-full overflow-hidden">
       <motion.div
         style={{ scale: sceneScale, willChange: "transform" }}
-        className="absolute inset-0 md:translate-x-[18%] md:scale-90"
+        className="absolute inset-0 md:translate-x-[26%] md:scale-[0.82]"
       >
         <ClientOnly
           fallback={
