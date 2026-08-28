@@ -128,36 +128,20 @@ function ProjectPanel({ project }: { project: Project }) {
             className="group relative aspect-[16/10] w-full overflow-hidden bg-muted shadow-[0_50px_100px_-60px_oklch(0.19_0.008_60/0.45)]"
             data-cursor={project.href ? "view" : "case study"}
           >
-            {project.portrait ? (
-              <>
-                <img
-                  src={project.image}
-                  alt=""
-                  aria-hidden
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full scale-110 object-cover opacity-40 blur-2xl"
-                />
-                <motion.img
-                  src={project.image}
-                  alt={`${project.title} — ${project.kind} interface preview`}
-                  width={784}
-                  height={1346}
-                  loading="lazy"
-                  style={{ y: imageY, willChange: "transform" }}
-                  className="absolute inset-0 mx-auto h-[92%] w-auto max-w-full self-center object-contain py-[4%] transition-[filter] duration-700 group-hover:saturate-125"
-                />
-              </>
-            ) : (
-              <motion.img
-                src={project.image}
-                alt={`${project.title} — ${project.kind} interface preview`}
-                width={1600}
-                height={1000}
-                loading="lazy"
-                style={{ y: imageY, willChange: "transform" }}
-                className="absolute inset-0 h-[112%] w-full -top-[6%] object-cover transition-[filter] duration-700 group-hover:saturate-125"
-              />
-            )}
+            <motion.img
+              src={project.image}
+              alt={`${project.title} — ${project.kind} interface preview`}
+              width={1600}
+              height={1000}
+              loading="lazy"
+              style={{
+                y: imageY,
+                willChange: "transform",
+                objectPosition: project.portrait ? "center 45%" : "center",
+              }}
+              className="absolute inset-0 h-[112%] w-full -top-[6%] object-cover transition-[filter] duration-700 group-hover:saturate-125"
+            />
+
             <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
               <div className="absolute inset-4 border border-champagne/60" />
             </div>
