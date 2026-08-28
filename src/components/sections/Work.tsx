@@ -12,6 +12,7 @@ type Project = {
   note: string;
   href?: string;
   image: string;
+  portrait?: boolean;
   summary: string;
   modules?: string[];
   tech?: string[];
@@ -25,6 +26,7 @@ const projects: Project[] = [
     note: "Real client project",
     href: "https://www.celestraa.com/",
     image: celestra,
+    portrait: true,
     summary:
       "A refined storefront built for a luxury brand — considered typography, slow deliberate motion and a product experience that carries the weight of the label.",
     tech: ["Storefront", "Product Experience", "Shopify API", "Performance"],
@@ -132,15 +134,21 @@ function ProjectPanel({ project }: { project: Project }) {
               width={1600}
               height={1000}
               loading="lazy"
-              style={{ y: imageY, willChange: "transform" }}
+              style={{
+                y: imageY,
+                willChange: "transform",
+                objectPosition: project.portrait ? "center 45%" : "center",
+              }}
               className="absolute inset-0 h-[112%] w-full -top-[6%] object-cover transition-[filter] duration-700 group-hover:saturate-125"
             />
+
             <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
               <div className="absolute inset-4 border border-champagne/60" />
             </div>
           </div>
           </Reveal>
         </div>
+
       </div>
     </div>
   );
