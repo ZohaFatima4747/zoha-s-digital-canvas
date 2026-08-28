@@ -12,6 +12,7 @@ type Project = {
   note: string;
   href?: string;
   image: string;
+  portrait?: boolean;
   summary: string;
   modules?: string[];
   tech?: string[];
@@ -25,6 +26,7 @@ const projects: Project[] = [
     note: "Real client project",
     href: "https://www.celestraa.com/",
     image: celestra,
+    portrait: true,
     summary:
       "A refined storefront built for a luxury brand — considered typography, slow deliberate motion and a product experience that carries the weight of the label.",
     tech: ["Storefront", "Product Experience", "Shopify API", "Performance"],
