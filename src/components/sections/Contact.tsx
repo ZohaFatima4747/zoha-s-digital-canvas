@@ -7,10 +7,20 @@ const EMAIL = "zoha83577@gmail.com";
 export function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
+  const name = form.name.trim();
+  const email = form.email.trim();
+  const message = form.message.trim();
+
   const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent(
-    form.name ? `Project enquiry — ${form.name}` : "Project enquiry",
+    `New Project Inquiry — ${name || "Website Visitor"}`,
   )}&body=${encodeURIComponent(
-    [form.message, "", form.name && `— ${form.name}`, form.email].filter(Boolean).join("\n"),
+    [
+      `Name: ${name}`,
+      `Email: ${email}`,
+      "",
+      "Project / Message:",
+      message,
+    ].join("\n"),
   )}`;
 
   const field =
