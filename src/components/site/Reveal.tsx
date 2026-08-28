@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { useRef, type ReactNode } from "react";
+import { motion, useInView } from "framer-motion";
 import { easeEditorial } from "@/lib/motion";
 
 export function Reveal({
