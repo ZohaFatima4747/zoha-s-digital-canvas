@@ -26,17 +26,17 @@ function CoreObject({ reduced }: { reduced: boolean }) {
   const ring = useRef<THREE.Mesh>(null);
 
   useFrame((_, delta) => {
-    if (reduced) return;
+    const speed = reduced ? 0.35 : 1;
     if (outer.current) {
-      outer.current.rotation.y += delta * 0.12;
-      outer.current.rotation.x += delta * 0.04;
+      outer.current.rotation.y += delta * 0.12 * speed;
+      outer.current.rotation.x += delta * 0.04 * speed;
     }
     if (inner.current) {
-      inner.current.rotation.y -= delta * 0.28;
-      inner.current.rotation.z += delta * 0.1;
+      inner.current.rotation.y -= delta * 0.28 * speed;
+      inner.current.rotation.z += delta * 0.1 * speed;
     }
     if (ring.current) {
-      ring.current.rotation.z += delta * 0.06;
+      ring.current.rotation.z += delta * 0.06 * speed;
       ring.current.rotation.x = Math.PI / 2.6;
     }
   });
@@ -116,8 +116,8 @@ function Particles({ count = 160, reduced }: { count?: number; reduced: boolean 
   }, [count]);
 
   useFrame((state, delta) => {
-    if (reduced || !points.current) return;
-    points.current.rotation.y += delta * 0.02;
+    if (!points.current) return;
+    points.current.rotation.y += delta * (reduced ? 0.008 : 0.02);
     points.current.position.y = Math.sin(state.clock.elapsedTime * 0.2) * 0.12;
   });
 
@@ -135,13 +135,14 @@ function Rig({ reduced, children }: { reduced: boolean; children: React.ReactNod
   const group = useRef<THREE.Group>(null);
   const pointer = useLerpedPointer();
 
-  useFrame(({ camera, viewport }) => {
+  useFrame(({ camera, viewport }, delta) => {
     // Keep the composition framed on narrow / tall viewports.
     const target = viewport.aspect < 1 ? 6 + (1 - viewport.aspect) * 4.5 : 6;
     camera.position.z += (target - camera.position.z) * 0.1;
     if (!group.current) return;
+    // Continuous slow drift so the scene always feels alive on every device.
+    group.current.rotation.y += delta * (reduced ? 0.03 : 0.08);
     if (reduced) return;
-    group.current.rotation.y = pointer.current.x * 0.32;
     group.current.rotation.x = pointer.current.y * 0.2;
     group.current.position.x = pointer.current.x * 0.22;
   });
@@ -163,7 +164,7 @@ export default function HeroScene() {
       dpr={[1, 1.75]}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       camera={{ position: [0, 0, 6], fov: 42 }}
-      frameloop={reduced ? "demand" : "always"}
+      frameloop="always"
     >
       <ambientLight intensity={1.1} />
       <directionalLight position={[4, 6, 5]} intensity={1.5} color="#fffaf0" />
