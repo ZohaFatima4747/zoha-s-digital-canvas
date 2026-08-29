@@ -1,30 +1,22 @@
 import { useState } from "react";
+import { Check, Copy } from "lucide-react";
 import { Magnetic } from "@/components/site/Magnetic";
 import { Reveal, RevealWords } from "@/components/site/Reveal";
 
 const EMAIL = "zoha83577@gmail.com";
 
 export function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [copied, setCopied] = useState(false);
 
-  const name = form.name.trim();
-  const email = form.email.trim();
-  const message = form.message.trim();
-
-  const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent(
-    `New Project Inquiry — ${name || "Website Visitor"}`,
-  )}&body=${encodeURIComponent(
-    [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      "",
-      "Project / Message:",
-      message,
-    ].join("\n"),
-  )}`;
-
-  const field =
-    "w-full border-b border-border bg-transparent py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-olive focus:outline-none";
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  };
 
   return (
     <section id="contact" className="relative border-t border-border py-24 md:py-32">
@@ -41,8 +33,8 @@ export function Contact() {
           <div className="md:col-span-5">
             <Reveal>
               <p className="max-w-sm text-sm leading-relaxed text-muted-foreground md:text-base">
-                Have a product, an automation, or an AI idea that needs building? Send a few lines
-                about it — I reply to every serious enquiry.
+                Have a product, an automation, or an AI idea that needs building? Drop me a line — I
+                reply to every serious enquiry.
               </p>
             </Reveal>
 
@@ -58,65 +50,42 @@ export function Contact() {
                     <span aria-hidden>→</span>
                   </a>
                 </Magnetic>
+
+                <button
+                  type="button"
+                  onClick={copyEmail}
+                  data-cursor="copy"
+                  aria-label={copied ? "Email copied" : "Copy email to clipboard"}
+                  className="label-mono mt-6 inline-flex items-center gap-2 rounded-full border border-foreground/25 px-5 py-2.5 transition-colors hover:border-olive hover:text-olive"
+                >
+                  {copied ? (
+                    <>
+                      <Check size={15} /> Copied
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={15} /> Copy email
+                    </>
+                  )}
+                </button>
               </div>
             </Reveal>
           </div>
 
           <div className="md:col-span-7">
             <Reveal delay={0.15}>
-              <form
-                className="space-y-8"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  window.location.href = mailto;
-                }}
-              >
-                <div className="grid gap-8 sm:grid-cols-2">
-                  <label className="block">
-                    <span className="label-mono text-muted-foreground">Name</span>
-                    <input
-                      required
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      placeholder="Your name"
-                      className={field}
-                    />
-                  </label>
-                  <label className="block">
-                    <span className="label-mono text-muted-foreground">Email</span>
-                    <input
-                      required
-                      type="email"
-                      value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      placeholder="you@company.com"
-                      className={field}
-                    />
-                  </label>
-                </div>
-
-                <label className="block">
-                  <span className="label-mono text-muted-foreground">Project</span>
-                  <textarea
-                    required
-                    rows={5}
-                    value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    placeholder="What are you building?"
-                    className={`${field} resize-none`}
-                  />
-                </label>
-
-                <Magnetic strength={0.16} className="inline-block">
-                  <button
-                    type="submit"
-                    data-cursor="send"
-                    className="label-mono inline-flex items-center gap-3 rounded-full border border-foreground/25 px-7 py-3.5 transition-colors hover:border-olive hover:text-olive"
+              <div className="flex h-full flex-col justify-end">
+                <p className="max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
+                  Prefer email? Reach out directly at{" "}
+                  <a
+                    href={`mailto:${EMAIL}`}
+                    className="text-foreground underline-offset-4 hover:text-olive hover:underline"
                   >
-                    Send message <span aria-hidden>→</span>
-                  </button>
-                </Magnetic>
-              </form>
+                    {EMAIL}
+                  </a>{" "}
+                  — or tap the copy button to grab it instantly.
+                </p>
+              </div>
             </Reveal>
           </div>
         </div>
