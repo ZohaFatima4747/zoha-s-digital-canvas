@@ -65,9 +65,12 @@ function Constellation({ reduced }: { reduced: boolean }) {
   }, [nodes]);
 
   useFrame(({ pointer }, delta) => {
-    if (!group.current || reduced) return;
-    group.current.rotation.y += delta * (hovered === null ? 0.09 : 0.02);
-    group.current.rotation.x += (pointer.y * 0.28 - group.current.rotation.x) * 0.03;
+    if (!group.current) return;
+    const speed = reduced ? 0.04 : hovered === null ? 0.12 : 0.05;
+    group.current.rotation.y += delta * speed;
+    if (!reduced) {
+      group.current.rotation.x += (pointer.y * 0.28 - group.current.rotation.x) * 0.03;
+    }
   });
 
   return (
