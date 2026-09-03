@@ -53,6 +53,16 @@ const projects: Project[] = [
     ],
     tech: ["Next.js", "React", "TypeScript", "Supabase", "PostgreSQL", "Electron"],
   },
+  {
+    index: "03",
+    title: "Personal Portfolio Website",
+    kind: "UI/UX Design · Interaction Design · Visual Direction",
+    note: "Personal project",
+    image: portfolioAsset.url,
+    summary:
+      "A premium, highly animated UI/UX Designer portfolio focused on immersive storytelling, clean visual hierarchy, and seamless user interactions. Designed with an editorial-inspired aesthetic, combining thoughtful layouts, refined typography, smooth transitions, and interactive project presentation to create an engaging personal brand experience.",
+    tech: ["Lovable"],
+  },
 ];
 
 function ProjectPanel({ project }: { project: Project }) {
