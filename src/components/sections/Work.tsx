@@ -57,7 +57,7 @@ const projects: Project[] = [
     index: "03",
     title: "Personal Portfolio Website",
     kind: "UI/UX Design · Interaction Design · Visual Direction",
-    note: "Personal project",
+    note: "Real client project",
     image: portfolioAsset.url,
     summary:
       "A premium, highly animated UI/UX Designer portfolio focused on immersive storytelling, clean visual hierarchy, and seamless user interactions. Designed with an editorial-inspired aesthetic, combining thoughtful layouts, refined typography, smooth transitions, and interactive project presentation to create an engaging personal brand experience.",
