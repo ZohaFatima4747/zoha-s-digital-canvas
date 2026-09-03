@@ -4,6 +4,7 @@ import { Reveal, RevealWords, SectionHeading } from "@/components/site/Reveal";
 import { Magnetic } from "@/components/site/Magnetic";
 import celestra from "@/assets/celestra-preview.jpg";
 import broast from "@/assets/broast-preview.jpg";
+import portfolioAsset from "@/assets/portfolio-preview.jpg.asset.json";
 
 type Project = {
   index: string;
