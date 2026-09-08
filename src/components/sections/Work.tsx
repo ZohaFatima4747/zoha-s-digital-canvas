@@ -55,20 +55,7 @@ const projects: Project[] = [
     tech: ["Next.js", "React", "TypeScript", "Supabase", "PostgreSQL", "Electron"],
   },
   {
-    index: "04",
-    title: "Interactive Business Discovery Map",
-    kind: "Interactive Map / Business Discovery",
-    note: "Real client project",
-    image: mapsProject.url,
-    summary:
-      "An interactive map experience for discovering local businesses — custom marker overlays, clustered pins, dynamic info windows rendered from live data and geo-location integration.",
-    tech: ["Google Maps API", "JavaScript", "HTML/CSS", "Bubble API"],
-  },
-];
-
-const projectsAll = [
-  ...projects.slice(0, 0),
-];
+    index: "03",
     title: "Personal Portfolio Website",
     kind: "UI/UX Design · Interaction Design · Visual Direction",
     note: "Real client project",
