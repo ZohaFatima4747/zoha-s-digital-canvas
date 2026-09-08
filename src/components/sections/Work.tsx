@@ -64,6 +64,16 @@ const projects: Project[] = [
       "A premium, highly animated UI/UX Designer portfolio focused on immersive storytelling, clean visual hierarchy, and seamless user interactions. Designed with an editorial-inspired aesthetic, combining thoughtful layouts, refined typography, smooth transitions, and interactive project presentation to create an engaging personal brand experience.",
     tech: ["Lovable"],
   },
+  {
+    index: "04",
+    title: "Interactive Business Discovery Map",
+    kind: "Interactive Map / Business Discovery",
+    note: "Real client project",
+    image: mapsProject.url,
+    summary:
+      "An interactive map experience for discovering local businesses — custom marker overlays, clustered pins, dynamic info windows rendered from live data and geo-location integration.",
+    tech: ["Google Maps API", "JavaScript", "HTML/CSS", "Bubble API"],
+  },
 ];
 
 function ProjectPanel({ project }: { project: Project }) {
