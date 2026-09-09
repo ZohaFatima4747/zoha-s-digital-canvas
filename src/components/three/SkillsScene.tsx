@@ -92,11 +92,12 @@ function Constellation({ reduced }: { reduced: boolean }) {
         <lineBasicMaterial color={OLIVE} transparent opacity={0.16} />
       </lineSegments>
 
-      {nodes.map((p, i) => (
+            {nodes.map((p, i) => (
         <group key={SKILLS[i] ?? i} position={p}>
           <mesh
             onPointerOver={() => setHovered(i)}
             onPointerOut={() => setHovered((h) => (h === i ? null : h))}
+            onPointerDown={() => setHovered((h) => (h === i ? null : i))}
           >
             <sphereGeometry args={[hovered === i ? 0.1 : 0.055, 20, 20]} />
             <meshStandardMaterial
@@ -105,20 +106,23 @@ function Constellation({ reduced }: { reduced: boolean }) {
               metalness={0.4}
             />
           </mesh>
-          <Html center distanceFactor={mobile ? 12 : 9} zIndexRange={[20, 0]}>
-            <span
-              className="label-mono select-none whitespace-nowrap px-1 transition-colors duration-300"
-              style={{
-                color: hovered === i ? "var(--ink)" : "var(--muted-foreground)",
-                fontWeight: hovered === i ? 700 : 400,
-                transform: "translateY(-18px)",
-                display: "inline-block",
-              }}
-            >
-              {SKILLS[i]}
-            </span>
-          </Html>
+          {(!mobile || hovered === i) && (
+            <Html center distanceFactor={mobile ? 8 : 9} zIndexRange={[20, 0]}>
+              <span
+                className="label-mono select-none whitespace-nowrap px-1 transition-colors duration-300"
+                style={{
+                  color: hovered === i ? "var(--ink)" : "var(--muted-foreground)",
+                  fontWeight: hovered === i ? 700 : 400,
+                  transform: "translateY(-18px)",
+                  display: "inline-block",
+                }}
+              >
+                {SKILLS[i]}
+              </span>
+            </Html>
+          )}
         </group>
+      ))}
       ))}
     </group>
   );
