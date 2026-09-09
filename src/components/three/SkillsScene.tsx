@@ -123,7 +123,6 @@ function Constellation({ reduced }: { reduced: boolean }) {
           )}
         </group>
       ))}
-      ))}
     </group>
   );
 }
