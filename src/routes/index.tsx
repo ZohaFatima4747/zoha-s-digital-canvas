@@ -55,9 +55,11 @@ function Index() {
       <main>
         <Hero />
         <Work />
+        <Testimonials />
         <Experience />
         <Skills />
         <Services />
+        <HowItWorks />
         <About />
         <Contact />
       </main>
