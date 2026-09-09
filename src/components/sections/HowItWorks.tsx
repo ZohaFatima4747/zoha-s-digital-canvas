@@ -1,5 +1,5 @@
 import { Reveal, SectionHeading } from "@/components/site/Reveal";
-import { Code2, MessageCircle, Rocket, ScrollText, type LucideIcon } from "lucide-react";
+import { Code2, MessageCircle, Rocket, ScrollText } from "lucide-react";
 
 const steps = [
   {
