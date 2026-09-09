@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Html } from "@react-three/drei";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Html, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { useReducedMotion } from "@/lib/motion";
 
@@ -25,6 +25,14 @@ export const SKILLS = [
   "Electron",
   "APIs",
   "Automation",
+  "HTML5",
+  "CSS3",
+  "PHP",
+  "MySQL",
+  "Git",
+  "GitHub",
+  "Vercel",
+  "Docker",
 ];
 
 function fibonacciSphere(count: number, radius: number) {
@@ -44,6 +52,8 @@ function fibonacciSphere(count: number, radius: number) {
 function Constellation({ reduced }: { reduced: boolean }) {
   const group = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState<number | null>(null);
+  const width = useThree((state) => state.size.width);
+  const mobile = width < 640;
 
   const nodes = useMemo(() => fibonacciSphere(SKILLS.length, 2.5), []);
 
@@ -74,7 +84,7 @@ function Constellation({ reduced }: { reduced: boolean }) {
   });
 
   return (
-    <group ref={group}>
+    <group ref={group} scale={mobile ? 0.72 : width < 900 ? 0.86 : 1}>
       <lineSegments>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[lines, 3]} />
@@ -95,7 +105,7 @@ function Constellation({ reduced }: { reduced: boolean }) {
               metalness={0.4}
             />
           </mesh>
-          <Html center distanceFactor={9} zIndexRange={[20, 0]}>
+          <Html center distanceFactor={mobile ? 12 : 9} zIndexRange={[20, 0]}>
             <span
               className="label-mono select-none whitespace-nowrap px-1 transition-colors duration-300"
               style={{
@@ -125,6 +135,13 @@ export default function SkillsScene() {
       <ambientLight intensity={1.2} />
       <directionalLight position={[3, 4, 5]} intensity={1.1} />
       <Constellation reduced={reduced} />
+      <OrbitControls
+        enablePan={false}
+        enableZoom={false}
+        enableDamping
+        dampingFactor={0.08}
+        rotateSpeed={0.55}
+      />
     </Canvas>
   );
 }

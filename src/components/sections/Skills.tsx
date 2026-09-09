@@ -18,7 +18,7 @@ export function Skills() {
         </Reveal>
       </div>
 
-      <div className="relative mt-8 h-[62svh] min-h-[420px] w-full md:h-[76svh]">
+      <div className="relative mt-6 h-[52svh] min-h-[340px] max-h-[500px] w-full touch-none overflow-hidden sm:h-[60svh] sm:min-h-[420px] sm:max-h-[620px] md:mt-8 md:h-[76svh] md:max-h-none">
         <ClientOnly fallback={null}>
           <Suspense fallback={null}>
             <SkillsScene />

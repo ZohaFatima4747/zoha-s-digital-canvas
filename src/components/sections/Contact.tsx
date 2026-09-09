@@ -16,7 +16,7 @@ const projectTypes = [
 const budgets = ["Under $500", "$500–$1,500", "$1,500–$5,000", "Not sure yet"];
 
 const fieldClass =
-  "mt-3 w-full border-b border-foreground/25 bg-transparent pb-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-olive md:text-base";
+  "mt-3 w-full min-w-0 border-b border-foreground/25 bg-transparent pb-3 text-base outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-olive";
 
 export function Contact() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
@@ -93,7 +93,7 @@ export function Contact() {
 
           <div className="md:col-span-7">
             <Reveal delay={0.15}>
-              <form onSubmit={onSubmit} className="grid gap-8 md:grid-cols-2">
+              <form onSubmit={onSubmit} className="grid min-w-0 gap-8 md:grid-cols-2">
                 <div className="md:col-span-1">
                   <label htmlFor="name" className="label-mono text-olive">
                     Name
