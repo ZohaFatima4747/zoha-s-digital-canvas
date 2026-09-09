@@ -1,20 +1,53 @@
 import { useState } from "react";
-import { Check, Copy } from "lucide-react";
-import { Magnetic } from "@/components/site/Magnetic";
 import { Reveal, RevealWords } from "@/components/site/Reveal";
 
 const EMAIL = "zoha83577@gmail.com";
+const ACCESS_KEY = "96bf4b15-661f-481a-b0a9-11f5ec52072a";
+
+const projectTypes = [
+  "Website",
+  "Web App",
+  "E-commerce",
+  "Automation/AI",
+  "Ongoing Support/Maintenance",
+  "Other",
+];
+
+const budgets = ["Under $500", "$500–$1,500", "$1,500–$5,000", "Not sure yet"];
+
+const fieldClass =
+  "mt-3 w-full border-b border-foreground/25 bg-transparent pb-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-olive md:text-base";
 
 export function Contact() {
-  const [copied, setCopied] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
-  const copyEmail = async () => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (status === "sending") return;
+    setStatus("sending");
+
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form).entries());
+
     try {
-      await navigator.clipboard.writeText(EMAIL);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: ACCESS_KEY,
+          subject: "New enquiry from portfolio",
+          ...data,
+        }),
+      });
+      const json = (await res.json()) as { success?: boolean };
+      if (res.ok && json.success) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
     } catch {
-      setCopied(false);
+      setStatus("error");
     }
   };
 
@@ -29,6 +62,12 @@ export function Contact() {
           <RevealWords text="something." delay={0.12} />
         </h2>
 
+        <Reveal>
+          <p className="label-mono mt-8 text-champagne">
+            Currently taking on 1–2 new projects this month.
+          </p>
+        </Reveal>
+
         <div className="mt-14 grid gap-14 md:grid-cols-12 md:gap-16">
           <div className="md:col-span-5">
             <Reveal>
@@ -39,53 +78,125 @@ export function Contact() {
             </Reveal>
 
             <Reveal delay={0.1}>
-              <div className="mt-10">
-                <Magnetic strength={0.18} className="inline-block">
-                  <a
-                    href={`mailto:${EMAIL}`}
-                    data-cursor="email"
-                    className="inline-flex items-center gap-3 border-b border-foreground/30 pb-2 font-display text-[clamp(1.1rem,2.6vw,1.9rem)] uppercase tracking-tight transition-colors hover:border-olive hover:text-olive"
-                  >
-                    {EMAIL}
-                    <span aria-hidden>→</span>
-                  </a>
-                </Magnetic>
-
-                <button
-                  type="button"
-                  onClick={copyEmail}
-                  data-cursor="copy"
-                  aria-label={copied ? "Email copied" : "Copy email to clipboard"}
-                  className="label-mono mt-6 inline-flex items-center gap-2 rounded-full border border-foreground/25 px-5 py-2.5 transition-colors hover:border-olive hover:text-olive"
+              <p className="mt-10 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
+                Prefer email? Reach out directly at{" "}
+                <a
+                  href={`mailto:${EMAIL}`}
+                  className="text-foreground underline-offset-4 hover:text-olive hover:underline"
                 >
-                  {copied ? (
-                    <>
-                      <Check size={15} /> Copied
-                    </>
-                  ) : (
-                    <>
-                      <Copy size={15} /> Copy email
-                    </>
-                  )}
-                </button>
-              </div>
+                  {EMAIL}
+                </a>
+                .
+              </p>
             </Reveal>
           </div>
 
           <div className="md:col-span-7">
             <Reveal delay={0.15}>
-              <div className="flex h-full flex-col justify-end">
-                <p className="max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
-                  Prefer email? Reach out directly at{" "}
-                  <a
-                    href={`mailto:${EMAIL}`}
-                    className="text-foreground underline-offset-4 hover:text-olive hover:underline"
+              <form onSubmit={onSubmit} className="grid gap-8 md:grid-cols-2">
+                <div className="md:col-span-1">
+                  <label htmlFor="name" className="label-mono text-olive">
+                    Name
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    maxLength={100}
+                    autoComplete="name"
+                    placeholder="Your name"
+                    className={fieldClass}
+                  />
+                </div>
+
+                <div className="md:col-span-1">
+                  <label htmlFor="email" className="label-mono text-olive">
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    maxLength={255}
+                    autoComplete="email"
+                    placeholder="you@company.com"
+                    className={fieldClass}
+                  />
+                </div>
+
+                <div className="md:col-span-1">
+                  <label htmlFor="project_type" className="label-mono text-olive">
+                    Project type
+                  </label>
+                  <select id="project_type" name="project_type" defaultValue="" className={fieldClass}>
+                    <option value="" disabled>
+                      Select one
+                    </option>
+                    {projectTypes.map((p) => (
+                      <option key={p} value={p}>
+                        {p}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="md:col-span-1">
+                  <label htmlFor="budget" className="label-mono text-olive">
+                    Budget range
+                  </label>
+                  <select id="budget" name="budget" defaultValue="" className={fieldClass}>
+                    <option value="" disabled>
+                      Select one
+                    </option>
+                    {budgets.map((b) => (
+                      <option key={b} value={b}>
+                        {b}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="md:col-span-2">
+                  <label htmlFor="message" className="label-mono text-olive">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows={4}
+                    maxLength={2000}
+                    placeholder="Tell me about your project, timeline and goals."
+                    className={`${fieldClass} resize-none`}
+                  />
+                </div>
+
+                <div className="md:col-span-2 flex flex-wrap items-center gap-6">
+                  <button
+                    type="submit"
+                    disabled={status === "sending"}
+                    data-cursor="send"
+                    className="label-mono inline-flex items-center gap-2 rounded-full border border-foreground/25 px-7 py-3 transition-colors hover:border-olive hover:text-olive disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {EMAIL}
-                  </a>{" "}
-                  — or tap the copy button to grab it instantly.
-                </p>
-              </div>
+                    {status === "sending" ? "Sending…" : "Send message"}
+                    <span aria-hidden>→</span>
+                  </button>
+
+                  <p aria-live="polite" className="label-mono">
+                    {status === "success" ? (
+                      <span className="text-olive">
+                        Thanks — I&apos;ll get back to you within 24 hours.
+                      </span>
+                    ) : status === "error" ? (
+                      <span className="text-destructive">
+                        Something went wrong. Please email me directly.
+                      </span>
+                    ) : null}
+                  </p>
+                </div>
+              </form>
             </Reveal>
           </div>
         </div>
