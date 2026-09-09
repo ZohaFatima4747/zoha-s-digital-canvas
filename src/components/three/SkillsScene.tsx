@@ -106,7 +106,7 @@ function Constellation({ reduced }: { reduced: boolean }) {
               metalness={0.4}
             />
           </mesh>
-          {(!mobile || hovered === i) && (
+          {!mobile && (
             <Html center distanceFactor={mobile ? 8 : 9} zIndexRange={[20, 0]}>
               <span
                 className="label-mono select-none whitespace-nowrap px-1 transition-colors duration-300"
