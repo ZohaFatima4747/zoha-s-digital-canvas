@@ -84,12 +84,12 @@ function Constellation({ reduced }: { reduced: boolean }) {
   });
 
   return (
-    <group ref={group} scale={mobile ? 0.62 : width < 900 ? 0.86 : 1}>
+    <group ref={group} scale={mobile ? 0.67 : width < 900 ? 0.86 : 1}>
       <lineSegments>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[lines, 3]} />
         </bufferGeometry>
-        <lineBasicMaterial color={OLIVE} transparent opacity={0.16} />
+        <lineBasicMaterial color={OLIVE} transparent opacity={mobile ? 0.22 : 0.16} />
       </lineSegments>
 
             {nodes.map((p, i) => (
@@ -99,7 +99,7 @@ function Constellation({ reduced }: { reduced: boolean }) {
             onPointerOut={() => setHovered((h) => (h === i ? null : h))}
             onPointerDown={() => setHovered((h) => (h === i ? null : i))}
           >
-            <sphereGeometry args={[hovered === i ? 0.1 : 0.055, 20, 20]} />
+            <sphereGeometry args={[hovered === i ? 0.1 : mobile ? 0.062 : 0.055, 20, 20]} />
             <meshStandardMaterial
               color={hovered === i ? CHAMPAGNE : OLIVE}
               roughness={0.3}

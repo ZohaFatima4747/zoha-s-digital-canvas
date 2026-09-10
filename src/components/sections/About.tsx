@@ -9,11 +9,11 @@ const facts = [
 
 export function About() {
   return (
-    <section id="about" className="relative border-t border-border py-24 md:py-32">
+    <section id="about" className="relative border-t border-border py-16 md:py-32">
       <div className="mx-auto max-w-[1500px] px-6 md:px-10">
         <SectionHeading index="About" title="Engineering with intent." />
 
-        <div className="mt-14 grid gap-12 md:grid-cols-12 md:gap-16">
+        <div className="mt-10 grid gap-8 md:mt-14 md:grid-cols-12 md:gap-16">
           <div className="md:col-span-7">
             <Reveal>
               <p className="font-serif text-[clamp(1.4rem,2.6vw,2.25rem)] leading-[1.25]">

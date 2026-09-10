@@ -45,7 +45,7 @@ function Entry({ item, i }: { item: (typeof entries)[number]; i: number }) {
     <motion.div
       ref={ref}
       style={{ x, opacity }}
-      className="group relative grid gap-6 border-b border-border py-10 md:grid-cols-12 md:py-14"
+      className="group relative grid gap-4 border-b border-border py-7 md:grid-cols-12 md:gap-6 md:py-14"
     >
       <div className="md:col-span-1">
         <span className="label-mono text-champagne">
@@ -78,7 +78,7 @@ export function Experience() {
   const height = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 });
 
   return (
-    <section id="experience" className="relative border-t border-border py-24 md:py-36">
+    <section id="experience" className="relative border-t border-border py-16 md:py-36">
       <div className="mx-auto max-w-[1500px] px-6 md:px-10">
         <SectionHeading index="Professional Experience" title="A record of shipped systems." />
         <Reveal delay={0.1}>
@@ -87,7 +87,7 @@ export function Experience() {
           </p>
         </Reveal>
 
-        <div ref={track} className="relative mt-16 md:mt-24">
+        <div ref={track} className="relative mt-10 md:mt-24">
           <div className="absolute -left-6 top-0 hidden h-full w-px bg-border md:block">
             <motion.div
               style={{ scaleY: height }}
