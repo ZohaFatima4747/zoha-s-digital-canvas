@@ -106,21 +106,19 @@ function Constellation({ reduced }: { reduced: boolean }) {
               metalness={0.4}
             />
           </mesh>
-          {!mobile && (
-            <Html center distanceFactor={mobile ? 8 : 9} zIndexRange={[20, 0]}>
-              <span
-                className="label-mono select-none whitespace-nowrap px-1 transition-colors duration-300"
-                style={{
-                  color: hovered === i ? "var(--ink)" : "var(--muted-foreground)",
-                  fontWeight: hovered === i ? 700 : 400,
-                  transform: "translateY(-18px)",
-                  display: "inline-block",
-                }}
-              >
-                {SKILLS[i]}
-              </span>
-            </Html>
-          )}
+          <Html center distanceFactor={mobile ? 13 : 9} zIndexRange={[20, 0]}>
+            <span
+              className="label-mono select-none whitespace-nowrap px-1 transition-colors duration-300"
+              style={{
+                color: hovered === i ? "var(--ink)" : "var(--muted-foreground)",
+                fontWeight: hovered === i ? 700 : 400,
+                transform: mobile ? "translateY(-12px)" : "translateY(-18px)",
+                display: "inline-block",
+              }}
+            >
+              {SKILLS[i]}
+            </span>
+          </Html>
         </group>
       ))}
     </group>

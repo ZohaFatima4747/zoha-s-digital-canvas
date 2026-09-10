@@ -32,14 +32,20 @@ export function Testimonials() {
             “
           </span>
           {quotes.map((t, i) => (
-            <Reveal key={t.source} delay={i * 0.08}>
+            <Reveal
+              key={t.source}
+              delay={i * 0.08}
+              className={
+                i === 0
+                  ? "md:col-span-7"
+                  : i === 1
+                    ? "md:col-span-5 md:mt-16"
+                    : "md:col-span-7 md:col-start-4"
+              }
+            >
               <figure
                 className={`group relative flex h-full min-h-64 flex-col justify-between overflow-hidden border border-border bg-background p-7 transition-colors duration-500 hover:border-olive/60 md:p-9 ${
-                  i === 0
-                    ? "md:col-span-7 md:min-h-80"
-                    : i === 1
-                      ? "md:col-span-5 md:mt-16 md:min-h-80"
-                      : "md:col-span-7 md:col-start-4 md:min-h-72"
+                  i === 2 ? "md:min-h-72" : "md:min-h-80"
                 }`}
               >
                 <div>
