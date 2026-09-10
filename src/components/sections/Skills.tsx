@@ -26,11 +26,9 @@ export function Skills() {
         </ClientOnly>
       </div>
 
-      <ul className="mx-auto flex max-w-[1500px] flex-wrap gap-x-5 gap-y-2 px-6 md:hidden">
+      <ul className="sr-only">
         {SKILLS.map((s) => (
-          <li key={s} className="label-mono text-muted-foreground">
-            {s}
-          </li>
+          <li key={s}>{s}</li>
         ))}
       </ul>
     </section>
