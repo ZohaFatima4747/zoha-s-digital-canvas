@@ -86,8 +86,8 @@ function ProjectPanel({ project }: { project: Project }) {
   const imageY = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
 
   return (
-    <div ref={wrap} className="relative border-t border-border py-20 md:py-32">
-      <div className="mx-auto grid max-w-[1500px] gap-12 px-6 md:px-10 lg:grid-cols-12">
+    <div ref={wrap} className="relative border-t border-border py-12 md:py-32">
+      <div className="mx-auto grid max-w-[1500px] gap-8 px-6 md:px-10 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
           <span className="label-mono text-olive">
             {project.index} — {project.kind}
@@ -96,14 +96,14 @@ function ProjectPanel({ project }: { project: Project }) {
             <RevealWords text={project.title} />
           </h3>
           <Reveal delay={0.15}>
-            <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
+            <p className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground md:mt-6">
               {project.summary}
             </p>
           </Reveal>
 
           {project.modules ? (
             <Reveal delay={0.2}>
-              <ul className="mt-8 flex flex-wrap gap-x-4 gap-y-2">
+              <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2 md:mt-8">
                 {project.modules.map((m) => (
                   <li key={m} className="label-mono text-foreground/70">
                     <span className="mr-2 text-champagne">·</span>
@@ -116,13 +116,13 @@ function ProjectPanel({ project }: { project: Project }) {
 
           {project.tech ? (
             <Reveal delay={0.25}>
-              <div className="mt-8 hairline" />
+              <div className="mt-6 hairline md:mt-8" />
               <p className="label-mono mt-4 text-muted-foreground">{project.tech.join("  /  ")}</p>
             </Reveal>
           ) : null}
 
           <Reveal delay={0.3}>
-            <div className="mt-8 flex items-center gap-6">
+            <div className="mt-6 flex items-center gap-6 md:mt-8">
               <span className="label-mono text-champagne">{project.note}</span>
               {project.href ? (
                 <Magnetic strength={0.2}>
@@ -178,7 +178,7 @@ function ProjectPanel({ project }: { project: Project }) {
 
 export function Work() {
   return (
-    <section id="work" className="relative pt-28">
+    <section id="work" className="relative pt-20 md:pt-28">
       <div className="mx-auto max-w-[1500px] px-6 pb-10 md:px-10">
         <SectionHeading index="Selected Work" title="Built for real businesses." />
       </div>

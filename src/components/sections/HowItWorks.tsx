@@ -26,15 +26,15 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="process" className="relative border-t border-border py-24 md:py-32">
+    <section id="process" className="relative border-t border-border py-16 md:py-32">
       <div className="mx-auto max-w-[1500px] px-6 md:px-10">
         <SectionHeading index="How It Works" title="A simple, transparent process." />
 
-        <div className="relative mt-16 md:ml-8">
+        <div className="relative mt-10 md:ml-8 md:mt-16">
           <div className="absolute bottom-10 left-6 top-10 w-px bg-border md:left-8" aria-hidden />
           {steps.map((step, i) => (
             <Reveal key={step.title} delay={i * 0.06}>
-              <div className="group relative grid grid-cols-[3rem_1fr] gap-x-5 py-7 md:grid-cols-[4rem_5fr_6fr] md:gap-x-10 md:py-10">
+              <div className="group relative grid grid-cols-[3rem_1fr] gap-x-4 py-5 md:grid-cols-[4rem_5fr_6fr] md:gap-x-10 md:py-10">
                 <div className="relative z-10 flex h-12 w-12 items-center justify-center border border-border bg-background text-olive transition-colors duration-500 group-hover:border-olive group-hover:bg-olive group-hover:text-background md:h-16 md:w-16">
                   <step.icon aria-hidden="true" className="h-5 w-5 md:h-6 md:w-6" strokeWidth={1.5} />
                 </div>

@@ -31,16 +31,16 @@ const aiTools = ["Claude", "OpenAI Codex", "Lovable", "Kiro"];
 
 export function Services() {
   return (
-    <section id="services" className="relative border-t border-border py-24 md:py-32">
+    <section id="services" className="relative border-t border-border py-16 md:py-32">
       <div className="mx-auto max-w-[1500px] px-6 md:px-10">
         <SectionHeading index="Services" title="What I build." />
 
-        <div className="mt-14 grid gap-px border-t border-border sm:grid-cols-2">
+        <div className="mt-10 grid gap-px border-t border-border sm:mt-14 sm:grid-cols-2">
           {services.map((s, i) => (
             <Reveal key={s.title} delay={0.05 * i}>
               <article
                 data-cursor
-                className="group h-full border-b border-border px-0 py-10 sm:px-8 sm:odd:border-r"
+                className="group h-full border-b border-border px-0 py-7 sm:px-8 sm:py-10 sm:odd:border-r"
               >
                 <div className="flex items-baseline gap-4">
                   <span className="label-mono text-champagne">{s.index}</span>
@@ -64,7 +64,7 @@ export function Services() {
         </div>
 
         <Reveal delay={0.1}>
-          <div className="mt-16 flex flex-col gap-6 border-l border-olive/40 pl-6 md:flex-row md:items-start md:justify-between md:gap-12 md:pl-8">
+          <div className="mt-10 flex flex-col gap-5 border-l border-olive/40 pl-5 md:mt-16 md:flex-row md:items-start md:justify-between md:gap-12 md:pl-8">
             <div className="max-w-xl">
               <span className="label-mono text-olive">AI-Powered Development</span>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">

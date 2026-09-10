@@ -20,11 +20,11 @@ const quotes = [
 
 export function Testimonials() {
   return (
-    <section id="testimonials" className="relative border-t border-border py-24 md:py-32">
+    <section id="testimonials" className="relative border-t border-border py-16 md:py-32">
       <div className="mx-auto max-w-[1500px] px-6 md:px-10">
         <SectionHeading index="Testimonials" title="Words from clients." />
 
-        <div className="relative mt-16 grid gap-5 md:grid-cols-12 md:gap-6">
+        <div className="relative mt-10 grid gap-4 md:mt-16 md:grid-cols-12 md:gap-6">
           <span
             aria-hidden="true"
             className="pointer-events-none absolute -top-14 right-0 font-serif text-[9rem] leading-none text-champagne/35 md:-top-24 md:text-[14rem]"
@@ -44,7 +44,7 @@ export function Testimonials() {
               }
             >
               <figure
-                className={`group relative flex h-full min-h-64 flex-col justify-between overflow-hidden border border-border bg-background p-7 transition-colors duration-500 hover:border-olive/60 md:p-9 ${
+                className={`group relative flex h-full min-h-56 flex-col justify-between overflow-hidden border border-border bg-background p-6 transition-colors duration-500 hover:border-olive/60 md:min-h-64 md:p-9 ${
                   i === 2 ? "md:min-h-72" : "md:min-h-80"
                 }`}
               >
@@ -58,7 +58,7 @@ export function Testimonials() {
                     </p>
                   </blockquote>
                 </div>
-                <figcaption className="mt-10 flex items-center justify-between gap-5 border-t border-border pt-5">
+                <figcaption className="mt-7 flex items-center justify-between gap-5 border-t border-border pt-4 md:mt-10 md:pt-5">
                   <span className="label-mono text-olive">{t.source}</span>
                   <span className="label-mono text-champagne">
                     {String(i + 1).padStart(2, "0")}

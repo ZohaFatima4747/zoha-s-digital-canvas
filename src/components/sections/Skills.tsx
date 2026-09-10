@@ -7,7 +7,7 @@ const SkillsScene = lazy(() => import("@/components/three/SkillsScene"));
 
 export function Skills() {
   return (
-    <section id="skills" className="relative border-t border-border py-24 md:py-32">
+    <section id="skills" className="relative border-t border-border py-16 md:py-32">
       <div className="mx-auto max-w-[1500px] px-6 md:px-10">
         <SectionHeading index="Skills" title="A technology constellation." />
         <Reveal delay={0.1}>
@@ -18,7 +18,7 @@ export function Skills() {
         </Reveal>
       </div>
 
-      <div className="relative mt-6 h-[52svh] min-h-[340px] max-h-[500px] w-full touch-none overflow-hidden sm:h-[60svh] sm:min-h-[420px] sm:max-h-[620px] md:mt-8 md:h-[76svh] md:max-h-none">
+      <div className="relative mt-4 h-[46svh] min-h-[310px] max-h-[410px] w-full touch-none overflow-hidden sm:mt-6 sm:h-[60svh] sm:min-h-[420px] sm:max-h-[620px] md:mt-8 md:h-[76svh] md:max-h-none">
         <ClientOnly fallback={null}>
           <Suspense fallback={null}>
             <SkillsScene />

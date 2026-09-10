@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { Reveal, RevealWords } from "@/components/site/Reveal";
 
 const EMAIL = "zoha83577@gmail.com";
@@ -17,6 +18,8 @@ const budgets = ["Under $500", "$500–$1,500", "$1,500–$5,000", "Not sure yet
 
 const fieldClass =
   "mt-3 w-full min-w-0 border-b border-foreground/25 bg-transparent pb-3 text-base outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-olive";
+
+const selectClass = `${fieldClass} cursor-pointer appearance-none pr-10 text-foreground`;
 
 export function Contact() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
@@ -52,7 +55,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="relative border-t border-border py-24 md:py-32">
+    <section id="contact" className="relative border-t border-border py-16 md:py-32">
       <div className="mx-auto max-w-[1500px] px-6 md:px-10">
         <span className="label-mono text-olive">Contact</span>
 
@@ -68,7 +71,7 @@ export function Contact() {
           </p>
         </Reveal>
 
-        <div className="mt-14 grid gap-14 md:grid-cols-12 md:gap-16">
+        <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-12 md:gap-16">
           <div className="md:col-span-5">
             <Reveal>
               <p className="max-w-sm text-sm leading-relaxed text-muted-foreground md:text-base">
@@ -130,32 +133,38 @@ export function Contact() {
                   <label htmlFor="project_type" className="label-mono text-olive">
                     Project type
                   </label>
-                  <select id="project_type" name="project_type" defaultValue="" className={fieldClass}>
-                    <option value="" disabled>
-                      Select one
-                    </option>
-                    {projectTypes.map((p) => (
-                      <option key={p} value={p}>
-                        {p}
+                  <div className="relative">
+                    <select id="project_type" name="project_type" defaultValue="" className={selectClass}>
+                      <option value="" disabled>
+                        Select one
                       </option>
-                    ))}
-                  </select>
+                      {projectTypes.map((p) => (
+                        <option key={p} value={p}>
+                          {p}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown aria-hidden="true" className="pointer-events-none absolute bottom-3 right-1 h-4 w-4 text-olive" strokeWidth={1.5} />
+                  </div>
                 </div>
 
                 <div className="md:col-span-1">
                   <label htmlFor="budget" className="label-mono text-olive">
                     Budget range
                   </label>
-                  <select id="budget" name="budget" defaultValue="" className={fieldClass}>
-                    <option value="" disabled>
-                      Select one
-                    </option>
-                    {budgets.map((b) => (
-                      <option key={b} value={b}>
-                        {b}
+                  <div className="relative">
+                    <select id="budget" name="budget" defaultValue="" className={selectClass}>
+                      <option value="" disabled>
+                        Select one
                       </option>
-                    ))}
-                  </select>
+                      {budgets.map((b) => (
+                        <option key={b} value={b}>
+                          {b}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown aria-hidden="true" className="pointer-events-none absolute bottom-3 right-1 h-4 w-4 text-olive" strokeWidth={1.5} />
+                  </div>
                 </div>
 
                 <div className="md:col-span-2">
