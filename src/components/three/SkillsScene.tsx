@@ -84,7 +84,7 @@ function Constellation({ reduced }: { reduced: boolean }) {
   });
 
   return (
-    <group ref={group} scale={mobile ? 0.72 : width < 900 ? 0.86 : 1}>
+    <group ref={group} scale={mobile ? 0.62 : width < 900 ? 0.86 : 1}>
       <lineSegments>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[lines, 3]} />
