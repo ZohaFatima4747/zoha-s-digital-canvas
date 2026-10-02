@@ -1,190 +1,125 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Reveal, RevealWords, SectionHeading } from "@/components/site/Reveal";
-import { Magnetic } from "@/components/site/Magnetic";
-import celestra from "@/assets/celestra-preview.jpg";
-import broast from "@/assets/broast-preview.jpg";
-import portfolio from "@/assets/portfolio-preview.jpg";
-import mapsProject from "@/assets/maps-project.jpg";
+import { useEffect, useRef } from "react";
+import { Link } from "@tanstack/react-router";
+import { SectionHeading } from "@/components/site/Reveal";
+import { useReducedMotion } from "@/lib/motion";
+import { projects, type Project } from "@/data/projects";
 
-type Project = {
-  index: string;
-  title: string;
-  kind: string;
-  note: string;
-  href?: string;
-  image: string;
-  portrait?: boolean;
-  summary: string;
-  modules?: string[];
-  tech?: string[];
-};
-
-const projects: Project[] = [
-  {
-    index: "01",
-    title: "Celestra",
-    kind: "Luxury E-commerce",
-    note: "Real client project",
-    href: "https://www.celestraa.com/",
-    image: celestra,
-    portrait: true,
-    summary:
-      "A refined storefront built for a luxury brand — considered typography, slow deliberate motion and a product experience that carries the weight of the label.",
-    tech: ["Storefront", "Product Experience", "Shopify API", "Performance"],
-  },
-  {
-    index: "02",
-    title: "Jalandhar Broast",
-    kind: "Restaurant Management System",
-    note: "Real client project",
-    image: broast,
-    summary:
-      "A complete operating system for a restaurant: customers order from the storefront, staff run service through the POS, and owners see the whole business in real time — down to the thermal printer on the counter.",
-    modules: [
-      "Customer Storefront",
-      "POS",
-      "Owner Dashboard",
-      "Inventory",
-      "Analytics",
-      "Orders",
-      "Tables",
-      "Thermal Printing",
-      "Electron Desktop App",
-    ],
-    tech: ["Next.js", "React", "TypeScript", "Supabase", "PostgreSQL", "Electron"],
-  },
-  {
-    index: "03",
-    title: "Personal Portfolio Website",
-    kind: "UI/UX Design · Interaction Design · Visual Direction",
-    note: "Real client project",
-    image: portfolio,
-    summary:
-      "A premium, highly animated UI/UX Designer portfolio focused on immersive storytelling, clean visual hierarchy, and seamless user interactions. Designed with an editorial-inspired aesthetic, combining thoughtful layouts, refined typography, smooth transitions, and interactive project presentation to create an engaging personal brand experience.",
-    tech: ["Lovable"],
-  },
-  {
-    index: "04",
-    title: "Interactive Business Discovery Map",
-    kind: "Interactive Map / Business Discovery",
-    note: "Real client project",
-    image: mapsProject,
-    summary:
-      "An interactive map experience for discovering local businesses — custom marker overlays, clustered pins, dynamic info windows rendered from live data and geo-location integration.",
-    tech: ["Google Maps API", "JavaScript", "HTML/CSS", "Bubble API"],
-  },
-];
-
-function ProjectPanel({ project }: { project: Project }) {
-  const wrap = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: wrap,
-    offset: ["start end", "end start"],
-  });
-
-  const imageY = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
-
+function ProjectCard({ project, setPaused }: { project: Project; setPaused: (paused: boolean) => void }) {
   return (
-    <div ref={wrap} className="relative border-t border-border py-12 md:py-32">
-      <div className="mx-auto grid max-w-[1500px] gap-8 px-6 md:px-10 lg:grid-cols-12 lg:gap-12">
-        <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
-          <span className="label-mono text-olive">
-            {project.index} — {project.kind}
-          </span>
-          <h3 className="display-xl mt-5 text-[clamp(2.4rem,6.5vw,5.5rem)]">
-            <RevealWords text={project.title} />
-          </h3>
-          <Reveal delay={0.15}>
-            <p className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground md:mt-6">
-              {project.summary}
-            </p>
-          </Reveal>
+    <article
+      className="work-marquee-card group absolute left-1/2 top-8 w-[82vw] max-w-[650px] sm:w-[64vw] md:top-16 md:w-[48vw] lg:w-[42vw]"
+      onPointerEnter={(event) => {
+        if (event.pointerType === "mouse") setPaused(true);
+      }}
+      onPointerLeave={(event) => {
+        if (event.pointerType === "mouse") setPaused(false);
+      }}
+    >
+      <div className="relative aspect-[16/10] overflow-hidden bg-muted shadow-[var(--shadow-editorial)]">
+        <img
+          src={project.image}
+          alt={`${project.title} — ${project.kind} interface preview`}
+          width={1600}
+          height={1000}
+          loading="lazy"
+          style={{ objectPosition: project.portrait ? "center 45%" : "center" }}
+          className="h-full w-full object-cover transition-[filter,transform] duration-700 md:group-hover:scale-[1.02] md:group-hover:brightness-50 md:group-hover:blur-[2px]"
+        />
 
-          {project.modules ? (
-            <Reveal delay={0.2}>
-              <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2 md:mt-8">
-                {project.modules.map((m) => (
-                  <li key={m} className="label-mono text-foreground/70">
-                    <span className="mr-2 text-champagne">·</span>
-                    {m}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-          ) : null}
-
-          {project.tech ? (
-            <Reveal delay={0.25}>
-              <div className="mt-6 hairline md:mt-8" />
-              <p className="label-mono mt-4 text-muted-foreground">{project.tech.join("  /  ")}</p>
-            </Reveal>
-          ) : null}
-
-          <Reveal delay={0.3}>
-            <div className="mt-6 flex items-center gap-6 md:mt-8">
-              <span className="label-mono text-champagne">{project.note}</span>
-              {project.href ? (
-                <Magnetic strength={0.2}>
-                  <a
-                    href={project.href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    data-cursor="visit"
-                    className="label-mono group inline-flex items-center gap-2 border-b border-foreground/30 pb-1 transition-colors hover:border-olive hover:text-olive"
-                  >
-                    View live site
-                    <span className="transition-transform group-hover:translate-x-1" aria-hidden>
-                      →
-                    </span>
-                  </a>
-                </Magnetic>
-              ) : null}
-            </div>
-          </Reveal>
-        </div>
-
-        <div className="lg:col-span-7">
-          <Reveal y={28}>
-          <div
-            className="group relative aspect-[16/10] w-full overflow-hidden bg-muted shadow-[0_50px_100px_-60px_oklch(0.19_0.008_60/0.45)]"
-            data-cursor={project.href ? "view" : "case study"}
-          >
-            <motion.img
-              src={project.image}
-              alt={`${project.title} — ${project.kind} interface preview`}
-              width={1600}
-              height={1000}
-              loading="lazy"
-              style={{
-                y: imageY,
-                willChange: "transform",
-                objectPosition: project.portrait ? "center 45%" : "center",
-              }}
-              className="absolute inset-0 h-[112%] w-full -top-[6%] object-cover transition-[filter] duration-700 group-hover:saturate-125"
-            />
-
-            <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
-              <div className="absolute inset-4 border border-champagne/60" />
-            </div>
+        <div className="pointer-events-none absolute inset-0 hidden items-center justify-center bg-foreground/10 p-8 opacity-0 transition-opacity duration-500 group-hover:opacity-100 md:flex">
+          <div className="text-center text-primary-foreground">
+            <span className="label-mono">{project.index} — {project.kind}</span>
+            <h3 className="font-display mt-4 text-3xl font-bold uppercase leading-none lg:text-5xl">
+              {project.title}
+            </h3>
+            <Link
+              to="/work/$slug"
+              params={{ slug: project.slug }}
+              preload="intent"
+              className="pointer-events-auto label-mono mt-7 inline-flex items-center gap-2 rounded-full border border-primary-foreground/70 px-5 py-3 transition-colors hover:bg-primary-foreground hover:text-primary"
+            >
+              View details <span aria-hidden>→</span>
+            </Link>
           </div>
-          </Reveal>
         </div>
-
       </div>
-    </div>
+
+      <div className="pt-4 md:hidden">
+        <span className="label-mono text-olive">{project.index} — {project.kind}</span>
+        <div className="mt-2 flex items-end justify-between gap-4 border-b border-border pb-4">
+          <h3 className="font-display text-xl font-bold uppercase leading-tight">{project.title}</h3>
+          <Link
+            to="/work/$slug"
+            params={{ slug: project.slug }}
+            className="label-mono shrink-0 text-olive"
+          >
+            View details →
+          </Link>
+        </div>
+      </div>
+    </article>
   );
 }
 
 export function Work() {
+  const stage = useRef<HTMLDivElement>(null);
+  const paused = useRef(false);
+  const reduced = useReducedMotion();
+
+  useEffect(() => {
+    const container = stage.current;
+    if (!container || reduced) return;
+    const cards = Array.from(container.querySelectorAll<HTMLElement>(".work-marquee-card"));
+    let progress = 0;
+    let previous = performance.now();
+    let frame = 0;
+
+    const positionCards = (now: number) => {
+      const dt = Math.min((now - previous) / 1000, 0.05);
+      previous = now;
+      const viewport = container.clientWidth;
+      const cardWidth = cards[0]?.offsetWidth ?? viewport * 0.82;
+      const spacing = cardWidth + Math.max(20, viewport * 0.025);
+      const loopWidth = spacing * cards.length;
+      if (!paused.current) progress = (progress + dt * (viewport < 768 ? 23 : 38)) % loopWidth;
+
+      cards.forEach((card, index) => {
+        const raw = index * spacing - progress;
+        const x = ((raw + loopWidth / 2) % loopWidth + loopWidth) % loopWidth - loopWidth / 2;
+        const distance = Math.min(1, Math.abs(x) / Math.max(viewport * 0.72, 1));
+        const y = distance * distance * (viewport < 768 ? 24 : 52);
+        const z = -distance * (viewport < 768 ? 90 : 230);
+        const rotation = Math.max(-25, Math.min(25, (-x / Math.max(viewport / 2, 1)) * 18));
+        const scale = 1 - distance * (viewport < 768 ? 0.08 : 0.2);
+        card.style.transform = `translate3d(calc(-50% + ${x}px), ${y}px, ${z}px) rotateY(${rotation}deg) scale(${scale})`;
+        card.style.opacity = `${1 - distance * 0.38}`;
+        card.style.zIndex = `${Math.round((1 - distance) * 20)}`;
+      });
+      frame = requestAnimationFrame(positionCards);
+    };
+
+    frame = requestAnimationFrame(positionCards);
+    return () => cancelAnimationFrame(frame);
+  }, [reduced]);
+
   return (
-    <section id="work" className="relative pt-20 md:pt-28">
-      <div className="mx-auto max-w-[1500px] px-6 pb-10 md:px-10">
+    <section id="work" className="relative overflow-hidden border-t border-border pt-16 md:pt-28">
+      <div className="mx-auto max-w-[1500px] px-6 md:px-10">
         <SectionHeading index="Selected Work" title="Built for real businesses." />
+        <p className="label-mono mt-5 max-w-md text-muted-foreground">
+          A continuously moving selection of digital products and client systems.
+        </p>
       </div>
-      {projects.map((p) => (
-        <ProjectPanel key={p.index} project={p} />
-      ))}
+
+      <div
+        ref={stage}
+        className={`relative mt-8 h-[350px] w-full [perspective:1100px] sm:h-[470px] md:mt-10 md:h-[620px] md:[perspective:1500px] ${reduced ? "work-marquee-reduced overflow-x-auto" : "overflow-hidden"}`}
+        aria-label="Selected projects"
+      >
+        {projects.map((project) => (
+          <ProjectCard key={project.slug} project={project} setPaused={(value) => { paused.current = value; }} />
+        ))}
+      </div>
     </section>
   );
 }
