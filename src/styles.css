@@ -172,3 +172,60 @@
   opacity: 1;
   scroll-snap-align: center;
 }
+
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .work-marquee-image:hover img,
+  .work-marquee-image:focus-within img {
+    filter: brightness(0.5) blur(2px);
+    transform: scale(1.02);
+  }
+
+  .work-marquee-image:hover .work-marquee-overlay,
+  .work-marquee-image:focus-within .work-marquee-overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* Desktop-only refinement: no page zoom and no changes below laptop widths. */
+@media (min-width: 1024px) {
+  .grain .max-w-\[1500px\] {
+    max-width: 1240px;
+    padding-inline: 2rem;
+  }
+
+  .grain main > section:not(#top):not(#work) {
+    padding-block: 5rem;
+  }
+
+  #top {
+    height: 90svh;
+    min-height: 620px;
+    max-height: 960px;
+  }
+
+  #top h1 { font-size: 7.5rem; }
+  #top .display-xl:not(h1) { font-size: 2rem; }
+  #top > div.relative { padding-inline: 2rem; }
+  #top p.max-w-md { margin-top: 2rem; font-size: 1rem; }
+
+  .grain section h2.display-xl { font-size: 3rem; }
+  #contact h2.display-xl { font-size: 5.5rem; }
+  .grain main > section h1.display-xl { font-size: 4rem; }
+  #about p.font-serif { font-size: 1.875rem; }
+  #testimonials figure p.font-serif { font-size: 1.625rem; }
+  .grain section h3.md\:text-3xl { font-size: 1.5rem; }
+
+  #work { padding-top: 5rem; }
+  #work > div[aria-label="Selected projects"] { height: 460px; margin-top: 2rem; }
+  #work .work-marquee-card { width: 36vw; max-width: 520px; top: 2.5rem; }
+  #work .work-marquee-overlay h3 { font-size: 2rem; }
+
+  .grain section .md\:mt-24 { margin-top: 3rem; }
+  .grain section .md\:mt-16 { margin-top: 2.5rem; }
+  .grain section .md\:mt-14 { margin-top: 2.5rem; }
+  .grain section .md\:gap-16 { gap: 3rem; }
+  #experience .md\:py-14 { padding-block: 2rem; }
+  #process .md\:py-10 { padding-block: 1.75rem; }
+  #skills > div.touch-none { height: 560px; min-height: 420px; max-height: 620px; }
+}
