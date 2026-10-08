@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { SectionHeading } from "@/components/site/Reveal";
-import { useReducedMotion } from "@/lib/motion";
 import { projects, type Project } from "@/data/projects";
 import { Button } from "@/components/ui/button";
 import { advanceMarquee, wrapMarqueePosition } from "@/lib/work-marquee";
@@ -76,11 +75,11 @@ function ProjectCard({ project, setPaused, duplicate = false }: { project: Proje
 export function Work() {
   const stage = useRef<HTMLDivElement>(null);
   const paused = useRef(false);
-  const reduced = useReducedMotion();
 
+  // The gallery always auto-moves (even with OS "reduce motion" on) — it is slow and constant by design.
   useEffect(() => {
     const container = stage.current;
-      if (!container || reduced) return;
+    if (!container) return;
     const cards = Array.from(container.querySelectorAll<HTMLElement>(".work-marquee-card"));
     let progress = 0;
     let previous = performance.now();
@@ -104,7 +103,6 @@ export function Work() {
         const rotation = Math.max(-25, Math.min(25, (-x / Math.max(viewport / 2, 1)) * 18));
         const scale = 1 - distance * (viewport < 768 ? 0.08 : 0.2);
         card.style.transform = `translate3d(calc(-50% + ${x}px), ${y}px, ${z}px) rotateY(${rotation}deg) scale(${scale})`;
-        card.style.opacity = "1";
         card.style.zIndex = `${Math.round((1 - distance) * 20)}`;
       });
       frame = requestAnimationFrame(positionCards);
@@ -114,13 +112,8 @@ export function Work() {
     return () => {
       cancelAnimationFrame(frame);
       paused.current = false;
-      cards.forEach((card) => {
-        card.style.transform = "";
-        card.style.opacity = "";
-        card.style.zIndex = "";
-      });
     };
-  }, [reduced]);
+  }, []);
 
   return (
     <section id="work" className="relative overflow-hidden border-t border-border pt-16 md:pt-28">
@@ -133,10 +126,10 @@ export function Work() {
 
       <div
         ref={stage}
-        className={`relative mt-8 h-[350px] w-full [perspective:1100px] sm:h-[470px] md:mt-10 md:h-[620px] md:[perspective:1500px] ${reduced ? "work-marquee-reduced overflow-x-auto" : "overflow-hidden"}`}
+        className="relative mt-8 h-[350px] w-full overflow-hidden [perspective:1100px] sm:h-[470px] md:mt-10 md:h-[620px] md:[perspective:1500px]"
         aria-label="Selected projects"
       >
-        {(reduced ? [0] : [0, 1, 2]).flatMap((copy) => projects.map((project) => (
+        {[0, 1, 2].flatMap((copy) => projects.map((project) => (
           <ProjectCard key={`${copy}-${project.slug}`} project={project} duplicate={copy > 0} setPaused={(value) => { paused.current = value; }} />
         )))}
       </div>
