@@ -6,3 +6,8 @@ export function wrapMarqueePosition(position: number, loopWidth: number) {
 export function advanceMarquee(progress: number, seconds: number, speed: number, loopWidth: number, paused: boolean) {
   return paused ? progress : (progress + seconds * speed) % loopWidth;
 }
+
+/** A small increase from the previous 23/30 px per second. */
+export function marqueeSpeed(viewport: number) {
+  return viewport < 768 ? 27 : 35;
+}

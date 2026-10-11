@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { SectionHeading } from "@/components/site/Reveal";
 import { projects, type Project } from "@/data/projects";
 import { Button } from "@/components/ui/button";
-import { advanceMarquee, wrapMarqueePosition } from "@/lib/work-marquee";
+import { advanceMarquee, marqueeSpeed, wrapMarqueePosition } from "@/lib/work-marquee";
 
 function ProjectCard({ project, setPaused, duplicate = false }: { project: Project; setPaused: (paused: boolean) => void; duplicate?: boolean }) {
   return (
@@ -31,10 +31,10 @@ function ProjectCard({ project, setPaused, duplicate = false }: { project: Proje
           loading="lazy"
           draggable={false}
           style={{ objectPosition: project.portrait ? "center 45%" : "center" }}
-          className="h-full w-full object-cover transition-[filter,transform] duration-500"
+          className={`h-full w-full max-md:object-contain transition-[filter,transform] duration-500 ${project.containImage ? "object-contain" : "object-cover"}`}
         />
 
-        <div className="work-marquee-overlay pointer-events-none absolute inset-0 hidden items-center justify-center bg-foreground/10 p-8 opacity-0 transition-opacity duration-300 md:flex">
+        <div className="work-marquee-overlay pointer-events-none absolute inset-0 items-center justify-center bg-foreground/10 p-8 opacity-0 transition-opacity duration-300">
           <div className="text-center text-primary-foreground">
             <span className="label-mono">{project.index} — {project.kind}</span>
             <h3 className="font-display mt-4 text-3xl font-bold uppercase leading-none lg:text-5xl">
@@ -54,18 +54,19 @@ function ProjectCard({ project, setPaused, duplicate = false }: { project: Proje
         </div>
       </div>
 
-      <div className="pt-4 md:hidden">
-        <span className="label-mono text-olive">{project.index} — {project.kind}</span>
-        <div className="mt-2 flex items-end justify-between gap-4 border-b border-border pb-4">
-          <h3 className="font-display text-xl font-bold uppercase leading-tight">{project.title}</h3>
+      <div className="work-marquee-caption min-w-0 pt-4">
+        <span className="label-mono block break-words leading-relaxed text-olive">{project.index} — {project.kind}</span>
+        <div className="mt-2 grid min-w-0 gap-3 border-b border-border pb-4">
+          <h3 className="font-display break-words text-xl font-bold uppercase leading-tight">{project.title}</h3>
+          <Button asChild variant="link" className="label-mono h-11 justify-start whitespace-normal p-0 text-olive">
           <Link
             to="/work/$slug"
             params={{ slug: project.slug }}
             tabIndex={duplicate ? -1 : undefined}
-            className="label-mono shrink-0 text-olive"
           >
             View details →
           </Link>
+          </Button>
         </div>
       </div>
     </article>
@@ -84,6 +85,22 @@ export function Work() {
     let progress = 0;
     let previous = performance.now();
     let frame = 0;
+    const desktopPointer = window.matchMedia("(min-width: 768px) and (hover: hover) and (pointer: fine)");
+    const sizeStage = () => {
+      if (desktopPointer.matches) {
+        container.style.height = "";
+        return;
+      }
+      const maxHeight = Math.max(...cards.map((card) => card.offsetHeight));
+      const top = parseFloat(getComputedStyle(cards[0] ?? container).top) || 32;
+      // Reserve the entire card, its curve offset and breathing room, not just its image.
+      container.style.height = `${Math.ceil(maxHeight + top + 52 + 24)}px`;
+    };
+    const observer = new ResizeObserver(sizeStage);
+    cards.forEach((card) => observer.observe(card));
+    observer.observe(container);
+    desktopPointer.addEventListener("change", sizeStage);
+    sizeStage();
 
     const positionCards = (now: number) => {
       const dt = Math.min((now - previous) / 1000, 0.05);
@@ -92,7 +109,7 @@ export function Work() {
       const cardWidth = cards[0]?.offsetWidth ?? viewport * 0.82;
       const spacing = cardWidth + Math.max(20, viewport * 0.025);
       const loopWidth = spacing * cards.length;
-      progress = advanceMarquee(progress, dt, viewport < 768 ? 23 : 30, loopWidth, paused.current);
+      progress = advanceMarquee(progress, dt, marqueeSpeed(viewport), loopWidth, paused.current);
 
       cards.forEach((card, index) => {
         const raw = index * spacing - progress;
@@ -111,6 +128,8 @@ export function Work() {
     frame = requestAnimationFrame(positionCards);
     return () => {
       cancelAnimationFrame(frame);
+      observer.disconnect();
+      desktopPointer.removeEventListener("change", sizeStage);
       paused.current = false;
     };
   }, []);
