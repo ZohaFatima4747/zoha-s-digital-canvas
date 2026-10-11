@@ -1,6 +1,8 @@
-import { mock } from "bun:test";
 import { describe, test } from "node:test";
 import { strict as assert } from "node:assert";
+
+const testRuntime = "bun:test";
+const { mock } = await import(testRuntime);
 
 for (const filename of ["celestra-preview.jpg", "broast-preview.jpg", "portfolio-preview.jpg", "maps-project.jpg"]) {
   mock.module(`../assets/${filename}`, () => ({ default: filename }));
