@@ -155,7 +155,16 @@
   will-change: transform, opacity;
 }
 
+.work-marquee-overlay { display: none; }
+.work-marquee-caption .label-mono { letter-spacing: 0; }
+
+@media (hover: none) {
+  .work-marquee-image img { object-fit: contain; }
+}
+
 @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .work-marquee-caption { display: none; }
+  .work-marquee-overlay { display: flex; }
   .work-marquee-image:hover img,
   .work-marquee-image:focus-within img {
     filter: brightness(0.5) blur(3px);

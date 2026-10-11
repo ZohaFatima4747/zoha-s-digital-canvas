@@ -2,6 +2,8 @@ import celestra from "@/assets/celestra-preview.jpg";
 import broast from "@/assets/broast-preview.jpg";
 import portfolio from "@/assets/portfolio-preview.jpg";
 import mapsProject from "@/assets/maps-project.jpg";
+import quranAcademy from "@/assets/quran-academy.jpg.asset.json";
+import instagramAutomation from "@/assets/instagram-automation.jpg.asset.json";
 
 export type Project = {
   index: string;
@@ -10,6 +12,9 @@ export type Project = {
   kind: string;
   note: string;
   href?: string;
+  liveUrlPlaceholder?: boolean;
+  deployment?: string;
+  containImage?: boolean;
   image: string;
   portrait?: boolean;
   summary: string;
@@ -24,12 +29,11 @@ export const projects: Project[] = [
     title: "Celestra",
     kind: "Luxury E-commerce",
     note: "Real client project",
-    href: "https://www.celestraa.com/",
     image: celestra,
     portrait: true,
     summary:
       "A refined storefront built for a luxury brand — considered typography, slow deliberate motion and a product experience that carries the weight of the label.",
-    tech: ["Storefront", "Product Experience", "Shopify API", "Performance"],
+    tech: ["Storefront", "Product Experience", "Performance"],
   },
   {
     index: "02",
@@ -73,7 +77,33 @@ export const projects: Project[] = [
     image: mapsProject,
     summary:
       "An interactive map experience for discovering local businesses — custom marker overlays, clustered pins, dynamic info windows rendered from live data and geo-location integration.",
-    tech: ["Google Maps API", "JavaScript", "HTML/CSS", "Bubble API"],
+    tech: ["Google Maps API", "JavaScript", "HTML/CSS"],
+  },
+  {
+    index: "05",
+    slug: "hajra-zainab-quran-academy",
+    title: "Hajra Zainab Quran Academy",
+    kind: "Educational Website / CMS",
+    note: "Real client project",
+    image: quranAcademy.url,
+    containImage: true,
+    summary: "A modern Quran academy website with a custom CMS and admin dashboard for managing website content, alongside a bilingual English/Urdu language switcher that makes the website accessible to both English- and Urdu-speaking visitors.",
+    modules: ["Custom CMS", "Admin dashboard", "Website content management", "Bilingual English/Urdu language switcher"],
+    tech: ["Next.js", "Supabase", "TypeScript"],
+    deployment: "Vercel",
+    liveUrlPlaceholder: true,
+  },
+  {
+    index: "06",
+    slug: "instagram-lead-automation",
+    title: "Instagram Lead Automation",
+    kind: "AI / Workflow Automation",
+    note: "Real client project",
+    image: instagramAutomation.url,
+    containImage: true,
+    summary: "An n8n-powered Instagram lead automation workflow that streamlines lead handling and reduces manual work.",
+    modules: ["Instagram lead handling", "Automated workflow"],
+    tech: ["n8n", "Instagram API", "Workflow Automation"],
   },
 ];
 

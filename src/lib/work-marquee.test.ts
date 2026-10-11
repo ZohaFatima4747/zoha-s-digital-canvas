@@ -1,8 +1,14 @@
 import { describe, test } from "node:test";
 import { strict as assert } from "node:assert";
-import { advanceMarquee, wrapMarqueePosition } from "./work-marquee";
+import { advanceMarquee, marqueeSpeed, wrapMarqueePosition } from "./work-marquee";
 
 describe("Selected Work motion", () => {
+  test("speed increases slightly on mobile and desktop", () => {
+    assert.equal(marqueeSpeed(375), 27);
+    assert.equal(marqueeSpeed(1280), 35);
+    assert.ok(marqueeSpeed(375) > 23 && marqueeSpeed(375) < 23 * 1.2);
+    assert.ok(marqueeSpeed(1280) > 30 && marqueeSpeed(1280) < 30 * 1.2);
+  });
   test("moves right to left at a consistent speed", () => {
     const first = advanceMarquee(0, 1, 30, 6000, false);
     const second = advanceMarquee(first, 1, 30, 6000, false);

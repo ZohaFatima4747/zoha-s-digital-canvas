@@ -73,6 +73,12 @@ function ProjectDetail() {
                   View live site <ArrowUpRight className="size-4" strokeWidth={1.5} />
                 </a>
               ) : null}
+              {project.liveUrlPlaceholder ? (
+                <p className="label-mono mt-7 text-muted-foreground">Live URL — to be added</p>
+              ) : null}
+              {project.deployment ? (
+                <p className="label-mono mt-5 text-olive">Deployment — {project.deployment}</p>
+              ) : null}
             </div>
 
             <div className="lg:col-span-7">
@@ -82,7 +88,7 @@ function ProjectDetail() {
                   alt={`${project.title} interface presentation`}
                   width={1600}
                   height={1000}
-                  className="h-full w-full object-cover"
+                  className={`h-full w-full ${project.containImage ? "object-contain" : "object-cover"}`}
                   style={{ objectPosition: project.portrait ? "center 45%" : "center" }}
                 />
               </div>
