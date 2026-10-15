@@ -106,7 +106,7 @@ export function Work() {
         if (!isMarqueeDrag(dx, dy)) return;
         gesture.dragging = true;
         container.setPointerCapture(event.pointerId);
-        container.dataset.dragging = "true";
+        container.dataset["dragging"] = "true";
       }
       progress = dragMarquee(progress, event.clientX - gesture.lastX, getLoopWidth());
       gesture.lastX = event.clientX;
@@ -116,7 +116,7 @@ export function Work() {
       if (!gesture || gesture.id !== event.pointerId) return;
       if (gesture.dragging) suppressClickUntil = performance.now() + 400;
       gesture = undefined;
-      delete container.dataset.dragging;
+      delete container.dataset["dragging"];
       if (container.hasPointerCapture(event.pointerId)) container.releasePointerCapture(event.pointerId);
       paused.current = desktopPointer.matches && Boolean(container.querySelector(".work-marquee-image:hover, .work-marquee-image:focus-within"));
     };
