@@ -11,5 +11,7 @@
 
 - Keep Selected Work content in one shared project-data module so its marquee and detail pages cannot drift apart.
 - Selected Work uses repeated visual sequences and time-based wrapped positions so loop resets occur outside the viewport; motion helpers have focused tests.
+- Marquee drag/swipe and horizontal trackpad input update the automatic loop's shared position; pointer capture and click suppression prevent accidental detail navigation.
+- Resolve CDN project-image pointers against the project's Lovable asset origin so external deployments never request unavailable local asset endpoints.
 - Selected Work measures full card heights for touch/narrow-screen stage sizing; desktop fine-pointer dimensions stay stylesheet-controlled to preserve desktop proportions.
 - Desktop proportion overrides live in a single min-width:1024px stylesheet block so mobile and tablet sizing remains unchanged.

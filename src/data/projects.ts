@@ -5,6 +5,9 @@ import mapsProject from "@/assets/maps-project.jpg";
 import quranAcademy from "@/assets/quran-academy.jpg.asset.json";
 import instagramAutomation from "@/assets/instagram-automation.jpg.asset.json";
 
+// Asset paths are served by Lovable, not by external deployment hosts such as Vercel.
+const projectAssetOrigin = "https://id-preview--78e909e7-61ef-4659-963e-abb37b75e612.lovable.app";
+
 export type Project = {
   index: string;
   slug: string;
@@ -85,7 +88,7 @@ export const projects: Project[] = [
     title: "Hajra Zainab Quran Academy",
     kind: "Educational Website / CMS",
     note: "Real client project",
-    image: quranAcademy.url,
+    image: new URL(quranAcademy.url, projectAssetOrigin).href,
     containImage: true,
     summary: "A modern Quran academy website with a custom CMS and admin dashboard for managing website content, alongside a bilingual English/Urdu language switcher that makes the website accessible to both English- and Urdu-speaking visitors.",
     modules: ["Custom CMS", "Admin dashboard", "Website content management", "Bilingual English/Urdu language switcher"],
@@ -99,7 +102,7 @@ export const projects: Project[] = [
     title: "Instagram Lead Automation",
     kind: "AI / Workflow Automation",
     note: "Real client project",
-    image: instagramAutomation.url,
+    image: new URL(instagramAutomation.url, projectAssetOrigin).href,
     containImage: true,
     summary: "An n8n-powered Instagram lead automation workflow that streamlines lead handling and reduces manual work.",
     modules: ["Instagram lead handling", "Automated workflow"],
