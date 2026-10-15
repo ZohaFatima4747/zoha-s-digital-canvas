@@ -7,7 +7,16 @@ export function advanceMarquee(progress: number, seconds: number, speed: number,
   return paused ? progress : (progress + seconds * speed) % loopWidth;
 }
 
-/** A small increase from the previous 23/30 px per second. */
+/** Pointer travel updates the same wrapped position used by automatic motion. */
+export function dragMarquee(progress: number, deltaX: number, loopWidth: number) {
+  return ((progress - deltaX) % loopWidth + loopWidth) % loopWidth;
+}
+
+export function isMarqueeDrag(deltaX: number, deltaY: number) {
+  return Math.abs(deltaX) > 6 && Math.abs(deltaX) > Math.abs(deltaY);
+}
+
+/** Noticeably faster than 27/35, while retaining a calm continuous glide. */
 export function marqueeSpeed(viewport: number) {
-  return viewport < 768 ? 27 : 35;
+  return viewport < 768 ? 36 : 46;
 }

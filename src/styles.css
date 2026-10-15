@@ -158,6 +158,14 @@
 .work-marquee-overlay { display: none; }
 .work-marquee-caption .label-mono { letter-spacing: 0; }
 
+#work [aria-label="Selected projects"] {
+  touch-action: pan-y pinch-zoom;
+  cursor: grab;
+  user-select: none;
+}
+#work [data-dragging="true"],
+#work [data-dragging="true"] a { cursor: grabbing; }
+
 @media (hover: none) {
   .work-marquee-image img { object-fit: contain; }
 }

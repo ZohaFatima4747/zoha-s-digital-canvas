@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { SectionHeading } from "@/components/site/Reveal";
 import { projects, type Project } from "@/data/projects";
 import { Button } from "@/components/ui/button";
-import { advanceMarquee, marqueeSpeed, wrapMarqueePosition } from "@/lib/work-marquee";
+import { advanceMarquee, dragMarquee, isMarqueeDrag, marqueeSpeed, wrapMarqueePosition } from "@/lib/work-marquee";
 
 function ProjectCard({ project, setPaused, duplicate = false }: { project: Project; setPaused: (paused: boolean) => void; duplicate?: boolean }) {
   return (
@@ -28,7 +28,7 @@ function ProjectCard({ project, setPaused, duplicate = false }: { project: Proje
           alt={`${project.title} — ${project.kind} interface preview`}
           width={1600}
           height={1000}
-          loading="lazy"
+          loading="eager"
           draggable={false}
           style={{ objectPosition: project.portrait ? "center 45%" : "center" }}
           className={`h-full w-full max-md:object-contain transition-[filter,transform] duration-500 ${project.containImage ? "object-contain" : "object-cover"}`}
@@ -85,7 +85,62 @@ export function Work() {
     let progress = 0;
     let previous = performance.now();
     let frame = 0;
+    let gesture: { id: number; startX: number; startY: number; lastX: number; dragging: boolean } | undefined;
+    let suppressClickUntil = 0;
+    let wheelPauseUntil = 0;
     const desktopPointer = window.matchMedia("(min-width: 768px) and (hover: hover) and (pointer: fine)");
+    const getLoopWidth = () => {
+      const viewport = container.clientWidth;
+      const width = cards[0]?.offsetWidth ?? viewport * 0.82;
+      return (width + Math.max(20, viewport * 0.025)) * cards.length;
+    };
+    const pointerDown = (event: PointerEvent) => {
+      if (!event.isPrimary || event.button !== 0) return;
+      gesture = { id: event.pointerId, startX: event.clientX, startY: event.clientY, lastX: event.clientX, dragging: false };
+    };
+    const pointerMove = (event: PointerEvent) => {
+      if (!gesture || gesture.id !== event.pointerId) return;
+      const dx = event.clientX - gesture.startX;
+      const dy = event.clientY - gesture.startY;
+      if (!gesture.dragging) {
+        if (!isMarqueeDrag(dx, dy)) return;
+        gesture.dragging = true;
+        container.setPointerCapture(event.pointerId);
+        container.dataset["dragging"] = "true";
+      }
+      progress = dragMarquee(progress, event.clientX - gesture.lastX, getLoopWidth());
+      gesture.lastX = event.clientX;
+      event.preventDefault();
+    };
+    const pointerEnd = (event: PointerEvent) => {
+      if (!gesture || gesture.id !== event.pointerId) return;
+      if (gesture.dragging) suppressClickUntil = performance.now() + 400;
+      gesture = undefined;
+      delete container.dataset["dragging"];
+      if (container.hasPointerCapture(event.pointerId)) container.releasePointerCapture(event.pointerId);
+      paused.current = desktopPointer.matches && Boolean(container.querySelector(".work-marquee-image:hover, .work-marquee-image:focus-within"));
+    };
+    const preventDragClick = (event: MouseEvent) => {
+      if (performance.now() >= suppressClickUntil) return;
+      event.preventDefault();
+      event.stopPropagation();
+    };
+    const preventNativeDrag = (event: DragEvent) => event.preventDefault();
+    const wheel = (event: WheelEvent) => {
+      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+      const delta = event.deltaX * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? container.clientWidth : 1);
+      progress = dragMarquee(progress, -delta, getLoopWidth());
+      wheelPauseUntil = performance.now() + 250;
+      event.preventDefault();
+    };
+    container.addEventListener("pointerdown", pointerDown);
+    container.addEventListener("pointermove", pointerMove);
+    container.addEventListener("pointerup", pointerEnd);
+    container.addEventListener("pointercancel", pointerEnd);
+    container.addEventListener("lostpointercapture", pointerEnd);
+    container.addEventListener("click", preventDragClick, true);
+    container.addEventListener("dragstart", preventNativeDrag);
+    container.addEventListener("wheel", wheel, { passive: false });
     const sizeStage = () => {
       if (desktopPointer.matches) {
         container.style.height = "";
@@ -109,7 +164,7 @@ export function Work() {
       const cardWidth = cards[0]?.offsetWidth ?? viewport * 0.82;
       const spacing = cardWidth + Math.max(20, viewport * 0.025);
       const loopWidth = spacing * cards.length;
-      progress = advanceMarquee(progress, dt, marqueeSpeed(viewport), loopWidth, paused.current);
+      progress = advanceMarquee(progress, dt, marqueeSpeed(viewport), loopWidth, paused.current || Boolean(gesture) || now < wheelPauseUntil);
 
       cards.forEach((card, index) => {
         const raw = index * spacing - progress;
@@ -130,6 +185,14 @@ export function Work() {
       cancelAnimationFrame(frame);
       observer.disconnect();
       desktopPointer.removeEventListener("change", sizeStage);
+      container.removeEventListener("pointerdown", pointerDown);
+      container.removeEventListener("pointermove", pointerMove);
+      container.removeEventListener("pointerup", pointerEnd);
+      container.removeEventListener("pointercancel", pointerEnd);
+      container.removeEventListener("lostpointercapture", pointerEnd);
+      container.removeEventListener("click", preventDragClick, true);
+      container.removeEventListener("dragstart", preventNativeDrag);
+      container.removeEventListener("wheel", wheel);
       paused.current = false;
     };
   }, []);
@@ -146,6 +209,7 @@ export function Work() {
       <div
         ref={stage}
         className="relative mt-8 h-[350px] w-full overflow-hidden [perspective:1100px] sm:h-[470px] md:mt-10 md:h-[620px] md:[perspective:1500px]"
+        data-lenis-prevent
         aria-label="Selected projects"
       >
         {[0, 1, 2].flatMap((copy) => projects.map((project) => (

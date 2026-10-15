@@ -36,6 +36,15 @@ describe("Portfolio project requirements", () => {
     assert.deepEqual(project.tech, ["n8n", "Instagram API", "Workflow Automation"]);
     assert.equal(project.href, undefined);
   });
+  test("supplied academy and automation thumbnails resolve independently of Vercel's origin", () => {
+    for (const slug of ["hajra-zainab-quran-academy", "instagram-lead-automation"]) {
+      const project = getProject(slug);
+      assert.ok(project);
+      const image = new URL(project.image);
+      assert.equal(image.hostname, "id-preview--78e909e7-61ef-4659-963e-abb37b75e612.lovable.app");
+      assert.ok(image.pathname.startsWith("/__l5e/assets-v1/"));
+    }
+  });
   test("new projects append in order and participate in cyclic next-project navigation", () => {
     assert.deepEqual(projects.map((project) => project.slug), ["celestra", "jalandhar-broast", "personal-portfolio", "business-discovery-map", "hajra-zainab-quran-academy", "instagram-lead-automation"]);
     assert.equal(getNextProject("business-discovery-map")?.slug, "hajra-zainab-quran-academy");
