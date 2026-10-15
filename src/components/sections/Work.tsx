@@ -125,6 +125,7 @@ export function Work() {
       event.preventDefault();
       event.stopPropagation();
     };
+    const preventNativeDrag = (event: DragEvent) => event.preventDefault();
     const wheel = (event: WheelEvent) => {
       if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
       const delta = event.deltaX * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? container.clientWidth : 1);
@@ -138,6 +139,7 @@ export function Work() {
     container.addEventListener("pointercancel", pointerEnd);
     container.addEventListener("lostpointercapture", pointerEnd);
     container.addEventListener("click", preventDragClick, true);
+    container.addEventListener("dragstart", preventNativeDrag);
     container.addEventListener("wheel", wheel, { passive: false });
     const sizeStage = () => {
       if (desktopPointer.matches) {
@@ -189,6 +191,7 @@ export function Work() {
       container.removeEventListener("pointercancel", pointerEnd);
       container.removeEventListener("lostpointercapture", pointerEnd);
       container.removeEventListener("click", preventDragClick, true);
+      container.removeEventListener("dragstart", preventNativeDrag);
       container.removeEventListener("wheel", wheel);
       paused.current = false;
     };
