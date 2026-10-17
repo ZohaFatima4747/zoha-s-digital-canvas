@@ -1,6 +1,6 @@
 # Tasks
-- [ ] Increase marquee speed and add position-preserving drag/swipe with accidental-click protection.
-- [ ] Fix supplied academy/Instagram image loading and verify mobile images, navigation, hover, and looping.
+- [x] Increase marquee speed and add position-preserving drag/swipe with accidental-click protection.
+- [x] Fix supplied academy/Instagram image loading and verify mobile images, navigation, hover, and looping.
 - [x] Fix automatic seamless Selected Work motion and desktop image hover.
 - [x] Refine desktop-only proportions while preserving mobile/tablet.
 - [x] Verify motion, navigation, viewports and current build diagnostics.
